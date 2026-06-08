@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VueProjectStructure",
+  "description": "Vue 3 标准项目结构定义",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["single", "monorepo"],
+      "description": "项目模式：single=单应用, monorepo=多应用"
+    },
+    "techStack": {
+      "type": "object",
+      "properties": {
+        "vue": { "type": "string", "const": "3.4+" },
+        "typescript": { "type": "string", "const": "5.x" },
+        "buildTool": { "type": "string", "enum": ["vite", "webpack"] },
+        "stateManagement": { "type": "string", "enum": ["pinia"] },
+        "httpClient": { "type": "string", "enum": ["axios"] },
+        "css": { "type": "string", "enum": ["uno-css", "tailwind", "scss", "less"] },
+        "packageManager": { "type": "string", "enum": ["pnpm", "npm", "yarn"] }
+      },
+      "required": ["vue", "typescript", "buildTool", "stateManagement"]
+    },
+    "directories": {
+      "type": "object",
+      "description": "标准目录定义",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/featureModule" },
+          "description": "业务功能模块列表"
+        },
+        "shared": { "$ref": "#/definitions/sharedDir" },
+        "layouts": { "type": "string" },
+        "router": { "type": "string" },
+        "stores": { "type": "string" },
+        "services": { "type": "string" },
+        "assets": { "type": "string" },
+        "config": { "type": "string" },
+        "plugins": { "type": "string" },
+        "directives": { "type": "string" },
+        "locales": { "type": "string" }
+      }
+    }
+  },
+  "definitions": {
+    "featureModule": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "components": { "type": "string", "const": "components/" },
+        "composables": { "type": "string", "const": "composables/" },
+        "services": { "type": "string", "const": "services/" },
+        "stores": { "type": "string", "const": "stores/" },
+        "types": { "type": "string", "const": "types/" },
+        "views": { "type": "string", "const": "views/" },
+        "utils": { "type": "string", "const": "utils/" },
+        "constants": { "type": "string", "const": "constants/" }
+      },
+      "required": ["name"]
+    },
+    "sharedDir": {
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "object",
+          "properties": {
+            "ui": { "type": "object", "properties": { "atoms": {}, "molecules": {}, "organisms": {} } },
+            "business": { "type": "string" },
+            "feedback": { "type": "string" }
+          }
+        },
+        "composables": { "type": "string" },
+        "utils": { "type": "string" },
+        "types": { "type": "string" },
+        "constants": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Status 状态码编码规范",
+  "description": "六位字符串分层编码，后三位对应 HTTP 状态码语义",
+
+  "rules": {
+    "format": "六位数字字符串，不足六位前补零",
+    "success": "000000",
+    "structure": "ABCDEF — AB=业务模块, C=错误层级, DEF=具体原因",
+    "infraRule": "基础层错误码 = 000 + HTTP三位状态码"
+  },
+
+  "infraCodes": {
+    "description": "基础层错误码（000xxx），后三位直接对应 HTTP 状态码",
+
+    "1xx_信息": {
+      "000100": "Continue — 继续请求",
+      "000101": "Switching Protocols — 切换协议"
+    },
+
+    "2xx_成功": {
+      "000200": "OK — 成功（同 000000，建议用 000000）",
+      "000001": "成功但需调用其他接口（半成功，自定义扩展）"
+    },
+
+    "3xx_重定向": {
+      "000301": "Moved Permanently — 资源已永久迁移",
+      "000302": "Found — 资源临时重定向",
+      "000304": "Not Modified — 资源未修改（缓存可用）"
+    },
+
+    "4xx_客户端错误": {
+      "000400": "Bad Request — 请求参数错误（缺失/格式不正确/校验失败）",
+      "000401": "Unauthorized — 未登录或 Token 失效",
+      "000403": "Forbidden — 无权限访问",
+      "000404": "Not Found — 接口不存在或资源不存在",
+      "000405": "Method Not Allowed — 请求方法不允许",
+      "000408": "Request Timeout — 请求超时",
+      "000409": "Conflict — 资源冲突（如重复创建）",
+      "000413": "Payload Too Large — 请求体过大",
+      "000415": "Unsupported Media Type — 不支持的 Content-Type",
+      "000422": "Unprocessable Entity — 请求格式正确但语义错误",
+      "000429": "Too Many Requests — 请求频率超限"
+    },
+
+    "5xx_服务端错误": {
+      "000500": "Internal Server Error — 服务器内部错误",
+      "000501": "Not Implemented — 接口未实现",
+      "000502": "Bad Gateway — 网关错误",
+      "000503": "Service Unavailable — 服务不可用（维护/过载）",
+      "000504": "Gateway Timeout — 网关超时"
+    }
+  },
+
+  "businessCodes": {
+    "description": "业务模块自定义错误码",
+    "convention": [
+      "前两位 AB = 业务模块编号（01~99）",
+      "第三位 C = 调用链层级（1~9），标识在第几层服务/库出错",
+      "后三位 DEF = 具体错误原因（000~999）"
+    ],
+    "examples": [
+      { "status": "101001", "meaning": "用户模块 第1层 用户名已存在" },
+      { "status": "202001", "meaning": "文章模块 第2层 已发布文章不能修改" },
+      { "status": "309000", "meaning": "电网图模块 第9层 查询出错" }
+    ]
+  },
+
+  "responseStructure": {
+    "success": {
+      "status": "000000",
+      "data": "查询接口返回业务数据，非查询接口返回 true",
+      "message": "success"
+    },
+    "businessError": {
+      "status": "六位业务错误码",
+      "data": "null 或 false",
+      "message": "具体错误描述"
+    },
+    "infraError": {
+      "status": "000xxx",
+      "data": "null",
+      "message": "基础设施错误描述"
+    }
+  }
+}

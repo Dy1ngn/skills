@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DeAIChecklist",
+  "description": "去 AI 化检查清单 — 每章完成后的自检项目",
+  "version": "1.0.0",
+  "checks": [
+    {
+      "id": "banned-words",
+      "category": "禁词检查",
+      "severity": "high",
+      "items": [
+        "全文搜索禁词表中的词，逐个处理",
+        "每个情感词是否都改成了具体描写？",
+        "每个连接词是否都必要？能否删除？"
+      ]
+    },
+    {
+      "id": "sensory",
+      "category": "五感检查",
+      "severity": "high",
+      "items": [
+        "每个场景至少涉及几种感官？",
+        "有没有'感到XX'这种抽象表达？改成身体反应",
+        "环境描写是否服务于情绪/氛围？"
+      ]
+    },
+    {
+      "id": "dialogue",
+      "category": "对白检查",
+      "severity": "high",
+      "items": [
+        "遮住角色名，能分辨出是谁在说话吗？",
+        "有没有角色说了他不会说的话？",
+        "对白中有没有潜台词？",
+        "有没有'XX说'过多？用动作替代部分"
+      ]
+    },
+    {
+      "id": "pacing",
+      "category": "节奏检查",
+      "severity": "medium",
+      "items": [
+        "段落长度有没有变化？",
+        "紧张处是否用了短句？舒缓处是否用了长句？",
+        "有没有删除不必要的过渡段？"
+      ]
+    },
+    {
+      "id": "logic",
+      "category": "逻辑检查",
+      "severity": "high",
+      "items": [
+        "角色的每个行为有没有动机？",
+        "情感变化有没有过渡？",
+        "信息传递有没有来源？",
+        "场景切换有没有衔接？"
+      ]
+    },
+    {
+      "id": "chronicle",
+      "category": "流水账检查",
+      "severity": "medium",
+      "items": [
+        "有没有'然后……然后……然后……'结构？",
+        "重要场景是否展开了？",
+        "不重要的事是否一笔带过了？"
+      ]
+    }
+  ],
+  "scoring": {
+    "description": "AI 味评分规则",
+    "scale": "0-100",
+    "levels": [
+      { "range": "0-20", "label": "人味十足", "color": "green" },
+      { "range": "21-40", "label": "轻微机器感", "color": "yellow" },
+      { "range": "41-60", "label": "中等 AI 味", "color": "orange" },
+      { "range": "61-80", "label": "明显 AI 味", "color": "red" },
+      { "range": "81-100", "label": "纯机器输出", "color": "darkred" }
+    ],
+    "note": "评分算法由 detect.js 实现，基于禁词严重程度和文本密度计算"
+  }
+}

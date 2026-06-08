@@ -1,0 +1,354 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BannedWords",
+  "description": "AI 高频词禁用表 — 检测并替换 AI 生成文本中的机器话术",
+  "version": "1.0.0",
+  "categories": {
+    "emotion": {
+      "label": "情感类",
+      "description": "AI 用来代替具体情感描写的空洞词组",
+      "severity": "high",
+      "words": [
+        {
+          "word": "不禁",
+          "frequency": "极高",
+          "reason": "AI 最爱的自动反应词，抹杀了角色的主动意识",
+          "replacements": ["删除，直接写动作", "改为：他停下了 / 她转过头 / 他攥紧了拳头"]
+        },
+        {
+          "word": "竟然",
+          "frequency": "极高",
+          "reason": "万能惊讶表达，每个惊讶都用它就没了惊讶感",
+          "replacements": ["用具体反应替代：愣住 / 手里的杯子差点掉了 / 嘴张了半天合不上"]
+        },
+        {
+          "word": "五味杂陈",
+          "frequency": "高",
+          "reason": "空洞的复杂情感，读了等于没读",
+          "replacements": ["写出具体是哪几种味道：想笑又想哭，气的又是自己"]
+        },
+        {
+          "word": "百感交集",
+          "frequency": "高",
+          "reason": "同上",
+          "replacements": ["写出具体感受：鼻子酸了，眼眶发烫，说不出话"]
+        },
+        {
+          "word": "心中一紧",
+          "frequency": "极高",
+          "reason": "AI 的紧张标准件",
+          "replacements": ["改为身体反应：呼吸一滞 / 手心冒汗 / 后背发凉"]
+        },
+        {
+          "word": "不由得",
+          "frequency": "高",
+          "reason": "失去主语的被动反应，削弱角色能动性",
+          "replacements": ["删除，改为主动动作：他停下脚步 / 她回头看了一眼"]
+        },
+        {
+          "word": "不由自主",
+          "frequency": "高",
+          "reason": "同上",
+          "replacements": ["同上"]
+        },
+        {
+          "word": "仿佛",
+          "frequency": "高",
+          "reason": "万能比喻连接词，用多了显得虚",
+          "replacements": ["减少使用，改为直接描写", "换用：像、好像、活像"]
+        },
+        {
+          "word": "若有所思",
+          "frequency": "中",
+          "reason": "AI 的思考状态标签",
+          "replacements": ["写出具体在想什么：他盯着那张照片看了很久，脑子里乱糟糟的"]
+        },
+        {
+          "word": "心领神会",
+          "frequency": "中",
+          "reason": "万能默契表达",
+          "replacements": ["用动作展示默契：两人对视一眼，都没说话"]
+        },
+        {
+          "word": "恍然大悟",
+          "frequency": "中",
+          "reason": "AI 的顿悟模板",
+          "replacements": ["写出具体想通了什么：他突然明白了——那封信不是给他的"]
+        },
+        {
+          "word": "若有所悟",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["同上"]
+        },
+        {
+          "word": "心头一震",
+          "frequency": "中",
+          "reason": "AI 的震惊标准件",
+          "replacements": ["改为具体反应：手里的筷子掉了 / 他站了起来 / 半天没说话"]
+        },
+        {
+          "word": "暗自",
+          "frequency": "中",
+          "reason": "AI 常用来偷懒写内心活动",
+          "replacements": ["通过行为展示内心：他嘴上说没事，手却在桌子底下攥成了拳头"]
+        },
+        {
+          "word": "强忍",
+          "frequency": "中",
+          "reason": "AI 的情绪抑制模板",
+          "replacements": ["写出具体怎么忍的：她咬着嘴唇，指甲掐进掌心"]
+        }
+      ]
+    },
+    "description": {
+      "label": "描写类",
+      "description": "AI 套用的角色/场景描写模板",
+      "severity": "medium",
+      "words": [
+        {
+          "word": "目光深邃",
+          "frequency": "极高",
+          "reason": "通用角色外貌标签",
+          "replacements": ["写出具体：眼窝深陷 / 瞳色很暗 / 目光锐利得像刀子"]
+        },
+        {
+          "word": "嘴角微微上扬",
+          "frequency": "极高",
+          "reason": "AI 的微笑模板",
+          "replacements": ["写出笑的质感：咧嘴一笑 / 抿着嘴笑 / 苦笑 / 冷笑"]
+        },
+        {
+          "word": "微微一笑",
+          "frequency": "极高",
+          "reason": "同上",
+          "replacements": ["同上"]
+        },
+        {
+          "word": "不禁一颤",
+          "frequency": "高",
+          "reason": "AI 的恐惧标准件",
+          "replacements": ["写出具体反应：手指抖了一下 / 脚底发软 / 头皮发麻"]
+        },
+        {
+          "word": "气质不凡",
+          "frequency": "中",
+          "reason": "空洞评价",
+          "replacements": ["通过行为/衣着/他人反应来展示"]
+        },
+        {
+          "word": "眉头紧锁",
+          "frequency": "高",
+          "reason": "AI 的担忧/思考标配",
+          "replacements": ["换用其他方式：揉了揉眉心 / 叹了口气 / 沉默了很久"]
+        },
+        {
+          "word": "眼中闪过一丝",
+          "frequency": "高",
+          "reason": "AI 的微表情模板",
+          "replacements": ["直接写眼神：盯着他 / 避开目光 / 眼神空洞"]
+        },
+        {
+          "word": "语重心长",
+          "frequency": "中",
+          "reason": "AI 的劝说语气标签",
+          "replacements": ["通过说话方式展示：停顿了很久才开口 / 声音放低了"]
+        },
+        {
+          "word": "意味深长",
+          "frequency": "中",
+          "reason": "AI 的暗示模板",
+          "replacements": ["写出具体暗示了什么，或让读者自己判断"]
+        },
+        {
+          "word": "沉默不语",
+          "frequency": "高",
+          "reason": "AI 的默认反应之一",
+          "replacements": ["用具体动作替代沉默：转过身去 / 端起杯子喝了一口 / 看向窗外"]
+        }
+      ]
+    },
+    "transition": {
+      "label": "连接类",
+      "description": "AI 段落开头的万能连接词",
+      "severity": "medium",
+      "words": [
+        {
+          "word": "值得注意的是",
+          "frequency": "高",
+          "reason": "说明文语气，不适合小说",
+          "replacements": ["删除，直接说"]
+        },
+        {
+          "word": "与此同时",
+          "frequency": "高",
+          "reason": "万能并列连接",
+          "replacements": ["用场景切换替代：另一边 / 窗外 / 三天后"]
+        },
+        {
+          "word": "不仅如此",
+          "frequency": "高",
+          "reason": "递进模板",
+          "replacements": ["删除，直接写递进内容"]
+        },
+        {
+          "word": "然而",
+          "frequency": "极高",
+          "reason": "AI 最爱的转折词",
+          "replacements": ["换用：可、只是、倒是、偏偏", "或直接另起一段，不需要连接词"]
+        },
+        {
+          "word": "因此",
+          "frequency": "高",
+          "reason": "因果模板",
+          "replacements": ["用行动展示因果，不靠连接词"]
+        },
+        {
+          "word": "总而言之",
+          "frequency": "中",
+          "reason": "总结模板",
+          "replacements": ["删除，让读者自己总结"]
+        },
+        {
+          "word": "显而易见",
+          "frequency": "中",
+          "reason": "强调模板",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "不言而喻",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "事实上",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "毫无疑问",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "众所周知",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "更为重要的是",
+          "frequency": "中",
+          "reason": "递进模板",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "进一步来说",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "需要指出的是",
+          "frequency": "中",
+          "reason": "说明文语气",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "不可否认",
+          "frequency": "中",
+          "reason": "假谦虚模板",
+          "replacements": ["删除"]
+        },
+        {
+          "word": "诚然",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["删除"]
+        }
+      ]
+    },
+    "structure": {
+      "label": "结构类",
+      "description": "AI 的段落/文章结构模板",
+      "severity": "low",
+      "patterns": [
+        {
+          "pattern": "首先.*其次.*最后",
+          "reason": "说明文三段论结构",
+          "replacements": ["打散重组，不要用序数词"]
+        },
+        {
+          "pattern": "一方面.*另一方面",
+          "reason": "议论文结构",
+          "replacements": ["用场景对比替代"]
+        },
+        {
+          "pattern": "不仅A.*而且B.*更重要的是C",
+          "reason": "递进三连",
+          "replacements": ["保留最有力度的一句，删除其余"]
+        },
+        {
+          "pattern": "每段结尾升华",
+          "reason": "AI 喜欢在段末加总结/升华句",
+          "replacements": ["删除升华句，让段落自然结束"]
+        }
+      ]
+    },
+    "english": {
+      "label": "英文 AI 高频词",
+      "description": "English AI overused words",
+      "severity": "medium",
+      "words": [
+        { "word": "delve", "replacements": ["dig", "go deep", "explore"] },
+        { "word": "navigate", "replacements": ["go through", "deal with"] },
+        { "word": "harness", "replacements": ["use", "tap into"] },
+        { "word": "embark", "replacements": ["start", "begin"] },
+        { "word": "foster", "replacements": ["build", "grow"] },
+        { "word": "multifaceted", "replacements": ["complex", "complicated"] },
+        { "word": "intricate", "replacements": ["detailed", "complex"] },
+        { "word": "pivotal", "replacements": ["key", "crucial"] },
+        { "word": "robust", "replacements": ["strong", "solid"] },
+        { "word": "nuanced", "replacements": ["subtle", "complicated"] },
+        { "word": "tapestry", "replacements": ["mix", "blend"] },
+        { "word": "landscape", "replacements": ["field", "area"] },
+        { "word": "realm", "replacements": ["world", "domain"] },
+        { "word": "testament", "replacements": ["proof", "sign"] },
+        { "word": "It's worth noting", "replacements": ["删除，直接说"] },
+        { "word": "In today's world", "replacements": ["删除"] },
+        { "word": "Furthermore", "replacements": ["and", "also", "plus", "直接另起一句"] },
+        { "word": "Moreover", "replacements": ["同上"] },
+        { "word": "In conclusion", "replacements": ["删除"] },
+        { "word": "To sum up", "replacements": ["删除"] }
+      ]
+    }
+  },
+  "rewriteFormulas": {
+    "emotion_to_body": {
+      "description": "抽象情感 → 具体身体反应",
+      "template": "[身体部位] + [具体动作] + [感官细节]",
+      "examples": [
+        { "before": "感到紧张", "after": "手指不自觉地攥紧了衣角" },
+        { "before": "感到害怕", "after": "后背一阵发凉，汗毛竖了起来" },
+        { "before": "感到高兴", "after": "嘴角怎么也压不下去" },
+        { "before": "感到悲伤", "after": "鼻子一酸，眼眶发烫" },
+        { "before": "感到愤怒", "after": "牙关咬得咯咯响，太阳穴突突地跳" }
+      ]
+    },
+    "action_to_scene": {
+      "description": "概括动作 → 场景展开",
+      "template": "[动作分解] + [环境反馈] + [感官细节]",
+      "examples": [
+        { "before": "他吃了饭", "after": "他扒了两口饭，米粒硬邦邦的，菜凉了，油花凝成白色的膜" },
+        { "before": "她哭了", "after": "她没出声，只是肩膀一抖一抖的，眼泪掉在手背上，温热的" }
+      ]
+    },
+    "then_to_cut": {
+      "description": "然后 → 场景切换",
+      "methods": ["直接切场景（空一行）", "用时间标记", "用空间标记", "用感官过渡"]
+    }
+  }
+}

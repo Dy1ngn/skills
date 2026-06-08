@@ -1,0 +1,270 @@
+{
+  "version": "1.0.0",
+  "title": "示例项目 API",
+  "baseUrl": "/api",
+  "description": "模块化接口契约示例",
+
+  "modules": {
+
+    "user": {
+      "name": "用户管理",
+      "description": "用户增删改查及状态管理",
+      "apis": [
+        {
+          "name": "获取用户详情",
+          "method": "GET",
+          "path": "/user/:id",
+          "description": "根据ID查询用户信息",
+          "request": {
+            "params": {
+              "id": { "type": "integer", "required": true, "description": "用户ID" }
+            }
+          },
+          "response": {
+            "data": {
+              "id": "integer — 用户ID",
+              "username": "string — 登录用户名",
+              "nickname": "string — 显示昵称",
+              "email": "string — 邮箱",
+              "phone": "string — 手机号",
+              "status": "integer — 0=禁用 1=启用",
+              "createTime": "datetime — 创建时间",
+              "updateTime": "datetime — 更新时间"
+            },
+            "errors": [
+              { "status": "000404", "message": "用户不存在" }
+            ]
+          }
+        },
+        {
+          "name": "分页查询用户列表",
+          "method": "GET",
+          "path": "/user/list",
+          "description": "分页查询用户列表，支持关键词搜索",
+          "request": {
+            "query": {
+              "pageNum": { "type": "integer", "required": false, "description": "页码，默认1", "default": 1 },
+              "pageSize": { "type": "integer", "required": false, "description": "每页条数，默认10", "default": 10 },
+              "keyword": { "type": "string", "required": false, "description": "搜索关键词" },
+              "status": { "type": "integer", "required": false, "description": "按状态筛选", "enum": [0, 1] }
+            }
+          },
+          "response": {
+            "data": {
+              "list": "array — 用户列表",
+              "pageInfo": {
+                "pageNum": "integer — 当前页码",
+                "pageSize": "integer — 每页条数",
+                "total": "integer — 总记录数",
+                "totalPages": "integer — 总页数"
+              }
+            }
+          }
+        },
+        {
+          "name": "新增用户",
+          "method": "POST",
+          "path": "/user",
+          "description": "创建新用户",
+          "request": {
+            "body": {
+              "username": { "type": "string", "required": true, "description": "登录用户名" },
+              "nickname": { "type": "string", "required": true, "description": "显示昵称" },
+              "email": { "type": "string", "required": false, "description": "邮箱" },
+              "phone": { "type": "string", "required": false, "description": "手机号" }
+            }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败",
+            "errors": [
+              { "status": "101001", "message": "用户名已存在" },
+              { "status": "101002", "message": "邮箱格式不正确" }
+            ]
+          }
+        },
+        {
+          "name": "修改用户",
+          "method": "PUT",
+          "path": "/user/:id",
+          "description": "根据ID修改用户信息",
+          "request": {
+            "params": { "id": { "type": "integer", "required": true, "description": "用户ID" } },
+            "body": {
+              "nickname": { "type": "string", "required": false, "description": "显示昵称" },
+              "email": { "type": "string", "required": false, "description": "邮箱" },
+              "phone": { "type": "string", "required": false, "description": "手机号" }
+            }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败",
+            "errors": [
+              { "status": "000404", "message": "用户不存在" },
+              { "status": "101001", "message": "用户名已存在" }
+            ]
+          }
+        },
+        {
+          "name": "删除用户",
+          "method": "DELETE",
+          "path": "/user/:id",
+          "description": "根据ID删除用户",
+          "request": {
+            "params": { "id": { "type": "integer", "required": true, "description": "用户ID" } }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败",
+            "errors": [
+              { "status": "000404", "message": "用户不存在" }
+            ]
+          }
+        },
+        {
+          "name": "修改用户状态",
+          "method": "PATCH",
+          "path": "/user/:id/status",
+          "description": "启用或禁用用户",
+          "request": {
+            "params": { "id": { "type": "integer", "required": true, "description": "用户ID" } },
+            "body": {
+              "status": { "type": "integer", "required": true, "description": "目标状态", "enum": [0, 1] }
+            }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败",
+            "errors": [
+              { "status": "000404", "message": "用户不存在" },
+              { "status": "101003", "message": "用户状态已是目标状态，无需修改" }
+            ]
+          }
+        }
+      ]
+    },
+
+    "article": {
+      "name": "文章管理",
+      "description": "文章的发布、编辑、查询",
+      "apis": [
+        {
+          "name": "获取文章详情",
+          "method": "GET",
+          "path": "/article/:id",
+          "description": "根据ID查询文章详情",
+          "request": {
+            "params": { "id": { "type": "integer", "required": true, "description": "文章ID" } }
+          },
+          "response": {
+            "data": {
+              "id": "integer",
+              "title": "string — 标题",
+              "content": "string — 正文内容",
+              "author": "string — 作者",
+              "category": "string — 分类",
+              "tags": "array — 标签列表",
+              "viewCount": "integer — 阅读量",
+              "status": "integer — 0=草稿 1=已发布 2=已下架",
+              "publishTime": "datetime — 发布时间",
+              "createTime": "datetime",
+              "updateTime": "datetime"
+            },
+            "errors": [
+              { "status": "000404", "message": "文章不存在" }
+            ]
+          }
+        },
+        {
+          "name": "分页查询文章列表",
+          "method": "GET",
+          "path": "/article/list",
+          "description": "分页查询文章列表",
+          "request": {
+            "query": {
+              "pageNum": { "type": "integer", "default": 1, "description": "页码" },
+              "pageSize": { "type": "integer", "default": 10, "description": "每页条数" },
+              "keyword": { "type": "string", "description": "搜索关键词" },
+              "status": { "type": "integer", "description": "按状态筛选", "enum": [0, 1, 2] },
+              "category": { "type": "string", "description": "按分类筛选" }
+            }
+          },
+          "response": {
+            "data": {
+              "list": "array — 文章列表",
+              "pageInfo": { "pageNum": "integer", "pageSize": "integer", "total": "integer", "totalPages": "integer" }
+            }
+          }
+        },
+        {
+          "name": "新增文章",
+          "method": "POST",
+          "path": "/article",
+          "description": "创建新文章（默认草稿状态）",
+          "request": {
+            "body": {
+              "title": { "type": "string", "required": true, "description": "标题" },
+              "content": { "type": "string", "required": true, "description": "正文" },
+              "author": { "type": "string", "required": true, "description": "作者" },
+              "category": { "type": "string", "required": false, "description": "分类" },
+              "tags": { "type": "array", "required": false, "description": "标签" }
+            }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败"
+          }
+        },
+        {
+          "name": "修改文章",
+          "method": "PUT",
+          "path": "/article/:id",
+          "description": "修改文章内容",
+          "request": {
+            "params": { "id": { "type": "integer", "required": true } },
+            "body": {
+              "title": { "type": "string", "required": false },
+              "content": { "type": "string", "required": false },
+              "category": { "type": "string", "required": false },
+              "tags": { "type": "array", "required": false }
+            }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败",
+            "errors": [
+              { "status": "000404", "message": "文章不存在" },
+              { "status": "202001", "message": "已发布文章不能修改内容，请先下架" }
+            ]
+          }
+        },
+        {
+          "name": "删除文章",
+          "method": "DELETE",
+          "path": "/article/:id",
+          "description": "删除文章",
+          "request": {
+            "params": { "id": { "type": "integer", "required": true } }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败",
+            "errors": [
+              { "status": "000404", "message": "文章不存在" }
+            ]
+          }
+        },
+        {
+          "name": "发布文章",
+          "method": "PATCH",
+          "path": "/article/:id/publish",
+          "description": "将草稿发布",
+          "request": {
+            "params": { "id": { "type": "integer", "required": true } }
+          },
+          "response": {
+            "data": "boolean — true=成功 false=失败",
+            "errors": [
+              { "status": "000404", "message": "文章不存在" },
+              { "status": "202002", "message": "只有草稿状态的文章可以发布" },
+              { "status": "000001", "message": "发布成功，但内容不完整，建议调用编辑接口补充", "action": "跳转编辑页" }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
