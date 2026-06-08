@@ -1,0 +1,206 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NodeJsProjectStructure",
+  "description": "Node.js (NestJS) 标准项目结构定义",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["single", "monorepo"],
+      "description": "项目模式：single=单应用 Feature-Based, monorepo=Nx 多应用"
+    },
+    "techStack": {
+      "type": "object",
+      "properties": {
+        "nestjs": {
+          "type": "string",
+          "const": "10+",
+          "description": "NestJS 框架版本"
+        },
+        "typescript": {
+          "type": "string",
+          "const": "5.x",
+          "description": "TypeScript 版本"
+        },
+        "orm": {
+          "type": "string",
+          "enum": ["typeorm", "prisma"],
+          "description": "ORM 方案"
+        },
+        "packageManager": {
+          "type": "string",
+          "enum": ["pnpm", "npm", "yarn"],
+          "description": "包管理器"
+        },
+        "apiDoc": {
+          "type": "string",
+          "const": "@nestjs/swagger",
+          "description": "API 文档方案"
+        },
+        "validation": {
+          "type": "string",
+          "const": "class-validator+class-transformer",
+          "description": "数据验证方案"
+        },
+        "auth": {
+          "type": "string",
+          "const": "@nestjs/passport",
+          "description": "认证方案"
+        },
+        "testing": {
+          "type": "string",
+          "const": "jest+supertest",
+          "description": "测试框架"
+        },
+        "microservices": {
+          "type": "string",
+          "const": "@nestjs/microservices",
+          "description": "微服务方案"
+        }
+      },
+      "required": ["nestjs", "typescript", "orm", "packageManager"]
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/featureModule"
+      },
+      "description": "业务功能模块列表"
+    },
+    "common": {
+      "$ref": "#/definitions/commonDir"
+    },
+    "config": {
+      "type": "string",
+      "const": "config/",
+      "description": "配置目录"
+    },
+    "database": {
+      "type": "object",
+      "properties": {
+        "migrations": {
+          "type": "string",
+          "const": "database/migrations/"
+        },
+        "seeds": {
+          "type": "string",
+          "const": "database/seeds/"
+        }
+      }
+    },
+    "shared": {
+      "type": "object",
+      "properties": {
+        "utils": {
+          "type": "string",
+          "const": "shared/utils/"
+        },
+        "interfaces": {
+          "type": "string",
+          "const": "shared/interfaces/"
+        }
+      }
+    }
+  },
+  "required": ["mode", "techStack"],
+  "definitions": {
+    "featureModule": {
+      "type": "object",
+      "description": "业务功能模块",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "模块名称，kebab-case"
+        },
+        "moduleFile": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*\\.module\\.ts$",
+          "description": "模块文件"
+        },
+        "controllerFile": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*\\.controller\\.ts$",
+          "description": "控制器文件"
+        },
+        "serviceFile": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*\\.service\\.ts$",
+          "description": "服务文件"
+        },
+        "dto": {
+          "type": "string",
+          "const": "dto/",
+          "description": "DTO 子目录"
+        },
+        "entities": {
+          "type": "string",
+          "const": "entities/",
+          "description": "实体子目录"
+        },
+        "guards": {
+          "type": "string",
+          "const": "guards/",
+          "description": "Guard 子目录"
+        },
+        "strategies": {
+          "type": "string",
+          "const": "strategies/",
+          "description": "策略子目录"
+        },
+        "commands": {
+          "type": "string",
+          "const": "commands/",
+          "description": "命令子目录（CQRS）"
+        },
+        "events": {
+          "type": "string",
+          "const": "events/",
+          "description": "事件子目录（CQRS）"
+        }
+      },
+      "required": ["name"]
+    },
+    "commonDir": {
+      "type": "object",
+      "description": "跨模块共享目录",
+      "properties": {
+        "decorators": {
+          "type": "string",
+          "const": "common/decorators/",
+          "description": "自定义装饰器"
+        },
+        "filters": {
+          "type": "string",
+          "const": "common/filters/",
+          "description": "异常过滤器"
+        },
+        "guards": {
+          "type": "string",
+          "const": "common/guards/",
+          "description": "全局 Guard"
+        },
+        "interceptors": {
+          "type": "string",
+          "const": "common/interceptors/",
+          "description": "拦截器"
+        },
+        "middleware": {
+          "type": "string",
+          "const": "common/middleware/",
+          "description": "中间件"
+        },
+        "pipes": {
+          "type": "string",
+          "const": "common/pipes/",
+          "description": "管道"
+        },
+        "dto": {
+          "type": "string",
+          "const": "common/dto/",
+          "description": "共享 DTO"
+        }
+      }
+    }
+  }
+}

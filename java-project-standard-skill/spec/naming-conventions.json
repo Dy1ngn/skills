@@ -1,0 +1,386 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NamingConventions",
+  "description": "Java 后端项目命名规范定义（基于阿里巴巴 Java 开发手册、RuoYi、JeecgBoot 等项目）",
+  "version": "1.0.0",
+  "rules": {
+    "classes": {
+      "Controller": {
+        "pattern": "PascalCase + Controller 后缀",
+        "suffix": "Controller",
+        "examples": ["SysUserController", "OrderController", "AuthController"],
+        "antiPatterns": ["userController.java", "UserCtrl.java", "UserHandler.java"],
+        "description": "REST 控制器类"
+      },
+      "ServiceInterface": {
+        "pattern": "PascalCase + Service 后缀（可选 I 前缀）",
+        "suffix": "Service",
+        "alternatives": ["IXxxService", "XxxService"],
+        "examples": ["ISysUserService", "UserService"],
+        "antiPatterns": ["userService.java", "UserSvc.java"],
+        "description": "服务接口定义"
+      },
+      "ServiceImpl": {
+        "pattern": "PascalCase + ServiceImpl 后缀",
+        "suffix": "ServiceImpl",
+        "examples": ["SysUserServiceImpl", "UserServiceImpl"],
+        "antiPatterns": ["UserServiceImpl.java"],
+        "note": "必须实现对应的 Service 接口",
+        "description": "服务实现类"
+      },
+      "Mapper": {
+        "pattern": "PascalCase + Mapper 后缀",
+        "suffix": "Mapper",
+        "examples": ["SysUserMapper", "OrderMapper"],
+        "antiPatterns": ["UserDao.java", "UserMapper.java"],
+        "description": "MyBatis Mapper 接口"
+      },
+      "Repository": {
+        "pattern": "PascalCase + Repository 后缀",
+        "suffix": "Repository",
+        "examples": ["UserRepository", "OrderRepository"],
+        "description": "Spring Data JPA Repository 接口"
+      },
+      "Entity": {
+        "pattern": "PascalCase，无后缀或 Entity 后缀",
+        "suffix": ["", "Entity"],
+        "examples": ["SysUser", "SysRole", "UserEntity"],
+        "antiPatterns": ["SysUserDO.java", "UserDto.java"],
+        "description": "数据库实体类（DO）"
+      },
+      "DTO": {
+        "pattern": "PascalCase + DTO 后缀",
+        "suffix": ["DTO", "Req", "Query"],
+        "examples": ["UserDTO", "UserCreateReq", "UserQuery"],
+        "antiPatterns": ["UserDto.java", "userData.java"],
+        "description": "数据传输对象"
+      },
+      "VO": {
+        "pattern": "PascalCase + VO 后缀",
+        "suffix": "VO",
+        "examples": ["UserVO", "LoginVO", "UserInfoVO"],
+        "antiPatterns": ["UserVo.java", "UserView.java"],
+        "description": "视图对象（返回前端）"
+      },
+      "BO": {
+        "pattern": "PascalCase + BO 后缀",
+        "suffix": "BO",
+        "examples": ["UserBO", "OrderBO"],
+        "antiPatterns": ["UserBo.java", "UserBusiness.java"],
+        "description": "业务对象"
+      },
+      "Config": {
+        "pattern": "PascalCase + Config 或 Configuration 后缀",
+        "suffix": ["Config", "Configuration"],
+        "examples": ["SecurityConfig", "RedisConfig", "MybatisPlusConfig"],
+        "antiPatterns": ["SecurityCfg.java", "RedisSetup.java"],
+        "description": "Spring 配置类"
+      },
+      "Utils": {
+        "pattern": "PascalCase + Utils 或 Util 后缀",
+        "suffix": ["Utils", "Util"],
+        "examples": ["DateUtils", "StringUtils", "SecurityUtils"],
+        "antiPatterns": ["DateHelper.java", "StringTool.java"],
+        "description": "工具类"
+      },
+      "Exception": {
+        "pattern": "PascalCase + Exception 后缀",
+        "suffix": "Exception",
+        "examples": ["BusinessException", "ForbiddenException"],
+        "antiPatterns": ["BusinessError.java", "BizException.java"],
+        "description": "自定义异常类"
+      },
+      "Aspect": {
+        "pattern": "PascalCase + Aspect 后缀",
+        "suffix": "Aspect",
+        "examples": ["LogAspect", "DataScopeAspect", "RateLimiterAspect"],
+        "antiPatterns": ["LogInterceptor.java", "DataHandler.java"],
+        "description": "AOP 切面类"
+      },
+      "Interceptor": {
+        "pattern": "PascalCase + Interceptor 或 Filter 后缀",
+        "suffix": ["Interceptor", "Filter"],
+        "examples": ["JwtAuthenticationFilter", "RepeatSubmitInterceptor"],
+        "description": "HTTP 拦截器/过滤器"
+      },
+      "Test": {
+        "pattern": "被测类名 + Test 后缀",
+        "suffix": "Test",
+        "examples": ["SysUserServiceTest", "SysUserControllerTest"],
+        "antiPatterns": ["UserTest.java", "TestUser.java"],
+        "description": "测试类"
+      }
+    },
+    "methods": {
+      "crudMybatis": {
+        "description": "MyBatis / MyBatis-Plus CRUD 方法命名",
+        "select": {
+          "byId": { "pattern": "selectXxxById", "example": "selectUserById(Long userId)" },
+          "list": { "pattern": "selectXxxList", "example": "selectUserList(UserQuery query)" },
+          "page": { "pattern": "selectXxxPage", "example": "selectUserPage(UserQuery query)" },
+          "one": { "pattern": "selectOneXxx", "example": "selectOneUser(UserQuery query)" },
+          "count": { "pattern": "countXxx", "example": "countUser(UserQuery query)" }
+        },
+        "insert": {
+          "single": { "pattern": "insertXxx", "example": "insertUser(SysUser user)" },
+          "batch": { "pattern": "batchInsertXxx", "example": "batchInsertUsers(List<SysUser> list)" }
+        },
+        "update": {
+          "single": { "pattern": "updateXxx", "example": "updateUser(SysUser user)" },
+          "batch": { "pattern": "batchUpdateXxx", "example": "batchUpdateUsers(List<SysUser> list)" }
+        },
+        "delete": {
+          "byId": { "pattern": "deleteXxxById", "example": "deleteUserById(Long userId)" },
+          "byIds": { "pattern": "deleteXxxByIds", "example": "deleteUserByIds(Long[] userIds)" }
+        }
+      },
+      "crudJpa": {
+        "description": "Spring Data JPA 方法命名",
+        "find": {
+          "byId": { "pattern": "findById", "example": "findById(Long id)" },
+          "all": { "pattern": "findAll", "example": "findAll()" },
+          "byField": { "pattern": "findByXxx", "example": "findByUserName(String name)" },
+          "page": { "pattern": "findAll(Specification, Pageable)", "example": "JPA 规范分页" }
+        },
+        "save": {
+          "single": { "pattern": "save", "example": "save(UserEntity entity)" },
+          "batch": { "pattern": "saveAll", "example": "saveAll(List<UserEntity> list)" }
+        },
+        "delete": {
+          "byId": { "pattern": "deleteById", "example": "deleteById(Long id)" },
+          "byIds": { "pattern": "deleteAllById", "example": "deleteAllById(List<Long> ids)" }
+        },
+        "count": { "pattern": "count", "example": "count()" },
+        "exists": { "pattern": "existsById", "example": "existsById(Long id)" }
+      },
+      "controller": {
+        "description": "Controller 方法命名（RuoYi 风格）",
+        "list": { "pattern": "list", "example": "list(UserQuery query)" },
+        "getInfo": { "pattern": "getInfo / detail", "example": "getInfo(@PathVariable Long userId)" },
+        "add": { "pattern": "add / save", "example": "add(@Validated @RequestBody UserCreateReq req)" },
+        "edit": { "pattern": "edit / update", "example": "edit(@Validated @RequestBody UserUpdateReq req)" },
+        "remove": { "pattern": "remove / delete", "example": "remove(@PathVariable Long[] userIds)" },
+        "export": { "pattern": "export", "example": "export(UserQuery query, HttpServletResponse response)" },
+        "importData": { "pattern": "importData", "example": "importData(MultipartFile file)" }
+      },
+      "validation": {
+        "description": "校验方法命名",
+        "unique": { "pattern": "checkXxxUnique", "example": "checkUserNameUnique(String userName)" },
+        "allowed": { "pattern": "checkXxxAllowed", "example": "checkUserAllowed(SysUser user)" }
+      }
+    },
+    "variables": {
+      "fields": {
+        "pattern": "camelCase",
+        "examples": ["userName", "createTime", "pageSize", "delFlag"],
+        "antiPatterns": ["user_name", "createTime_", "USERNAME"],
+        "description": "实体字段、方法参数、局部变量均使用 camelCase"
+      },
+      "constants": {
+        "pattern": "UPPER_SNAKE_CASE",
+        "examples": ["MAX_STOCK_COUNT", "DEFAULT_PAGE_SIZE", "SUPER_ADMIN_ID"],
+        "antiPatterns": ["maxStockCount", "MaxStockCount", "MAX_STOCK_COUNT"],
+        "description": "常量使用全大写下划线分隔"
+      },
+      "booleanFields": {
+        "pattern": "禁止 is 前缀",
+        "correctExamples": ["deleted", "admin", "enabled", "visible", "locked"],
+        "wrongExamples": ["isDeleted", "isAdmin", "isEnabled", "isVisible", "isLocked"],
+        "reason": "MyBatis-Plus / Lombok 生成 getter 时会自动去掉 is 前缀，导致映射异常",
+        "description": "布尔字段禁止使用 is 前缀"
+      },
+      "packages": {
+        "pattern": "全小写，无下划线",
+        "examples": ["com.ruoyi.system.controller", "com.ruoyi.common.core"],
+        "antiPatterns": ["com.ruoyi.System.Controller", "com.ruoyi.system_controller"],
+        "description": "包名全小写，不使用下划线"
+      },
+      "genericParams": {
+        "pattern": "单大写或语义后缀",
+        "examples": ["T", "E", "K", "V", "RequestT", "ResponseT"],
+        "description": "泛型参数使用单大写字母或语义后缀"
+      },
+      "entityPrimaryKey": {
+        "pattern": "id 或 XxxId",
+        "examples": ["id", "userId", "orderId"],
+        "description": "实体自增主键字段命名"
+      },
+      "foreignKey": {
+        "pattern": "关联实体名 + Id",
+        "examples": ["roleId", "deptId", "parentId"],
+        "description": "外键字段命名"
+      },
+      "auditFields": {
+        "createBy": "创建人",
+        "createTime": "创建时间",
+        "updateBy": "更新人",
+        "updateTime": "更新时间",
+        "delFlag": "逻辑删除标志（0=正常, 1/2=删除）",
+        "remark": "备注"
+      }
+    },
+    "databaseMapping": {
+      "description": "数据库字段与 Java 字段的映射规则",
+      "rules": [
+        {
+          "rule": "基本转换",
+          "pattern": "snake_case → camelCase",
+          "examples": [
+            { "db": "user_id", "java": "userId" },
+            { "db": "user_name", "java": "userName" },
+            { "db": "nick_name", "java": "nickName" },
+            { "db": "create_time", "java": "createTime" },
+            { "db": "del_flag", "java": "delFlag" },
+            { "db": "login_ip", "java": "loginIp" }
+          ]
+        },
+        {
+          "rule": "去掉 is_ 前缀",
+          "pattern": "布尔字段去掉 is_ 前缀",
+          "examples": [
+            { "db": "is_admin", "java": "admin" },
+            { "db": "is_deleted", "java": "deleted" },
+            { "db": "is_enabled", "java": "enabled" }
+          ]
+        },
+        {
+          "rule": "保持常见缩写",
+          "pattern": "常见缩写保持原样",
+          "examples": [
+            { "db": "ip", "java": "ip" },
+            { "db": "id", "java": "id" },
+            { "db": "url", "java": "url" }
+          ]
+        }
+      ],
+      "tableNaming": {
+        "pattern": "snake_case，与实体类对应",
+        "examples": [
+          { "table": "sys_user", "entity": "SysUser" },
+          { "table": "sys_role", "entity": "SysRole" },
+          { "table": "order_info", "entity": "OrderInfo" }
+        ]
+      },
+      "indexNaming": {
+        "normal": { "pattern": "idx_表名_字段名", "example": "idx_sys_user_user_name" },
+        "unique": { "pattern": "uk_表名_字段名", "example": "uk_sys_user_user_name" }
+      }
+    },
+    "apiEndpoints": {
+      "description": "RESTful API 接口路径命名规范",
+      "pattern": "模块/资源/操作",
+      "rules": [
+        {
+          "rule": "路径全小写",
+          "example": "/system/user/list"
+        },
+        {
+          "rule": "多单词用连字符分隔",
+          "example": "/system/dict-type/list"
+        },
+        {
+          "rule": "RESTful 方法映射",
+          "mappings": [
+            { "method": "GET", "path": "/{module}/{resource}/list", "action": "分页列表" },
+            { "method": "GET", "path": "/{module}/{resource}/{id}", "action": "按 ID 查询" },
+            { "method": "POST", "path": "/{module}/{resource}", "action": "新增" },
+            { "method": "PUT", "path": "/{module}/{resource}", "action": "修改" },
+            { "method": "DELETE", "path": "/{module}/{resource}/{ids}", "action": "删除（支持批量）" },
+            { "method": "POST", "path": "/{module}/{resource}/export", "action": "导出" },
+            { "method": "POST", "path": "/{module}/{resource}/importData", "action": "导入" }
+          ]
+        },
+        {
+          "rule": "子操作使用子路径",
+          "examples": [
+            { "method": "PUT", "path": "/system/user/resetPwd", "action": "重置密码" },
+            { "method": "PUT", "path": "/system/user/changeStatus", "action": "修改状态" },
+            { "method": "POST", "path": "/system/user/checkUserNameUnique", "action": "校验用户名唯一" }
+          ]
+        }
+      ]
+    },
+    "dtoVoBo": {
+      "description": "DTO/VO/BO 分层规范（阿里巴巴 Java 开发手册）",
+      "layers": [
+        {
+          "name": "DO（数据对象）",
+          "layer": "DAO",
+          "purpose": "与数据库表 1:1 映射",
+          "package": "entity/ 或 domain/",
+          "suffix": "无后缀或 Entity",
+          "examples": ["SysUser", "UserEntity"]
+        },
+        {
+          "name": "DTO（数据传输对象）",
+          "layer": "Service",
+          "purpose": "层间或服务间传输",
+          "package": "dto/",
+          "subpackages": {
+            "query/": "查询参数对象（>2 个参数时）",
+            "req/": "请求体 DTO"
+          },
+          "suffix": "DTO / Req / Query",
+          "examples": ["UserDTO", "UserCreateReq", "UserQuery"]
+        },
+        {
+          "name": "VO（视图对象）",
+          "layer": "Controller",
+          "purpose": "返回给前端的数据",
+          "package": "vo/",
+          "suffix": "VO",
+          "examples": ["UserVO", "LoginVO"]
+        },
+        {
+          "name": "BO（业务对象）",
+          "layer": "Service",
+          "purpose": "承载业务逻辑",
+          "package": "bo/",
+          "suffix": "BO",
+          "examples": ["UserBO"]
+        },
+        {
+          "name": "Query（查询对象）",
+          "layer": "Controller",
+          "purpose": "封装查询参数（>2 个参数时）",
+          "package": "dto/query/",
+          "suffix": "Query",
+          "examples": ["UserQuery", "OrderQuery"]
+        }
+      ],
+      "dataFlow": "Client Request → Query/DTO → Controller → Service (uses BO) → Mapper → DO (DB)"
+    },
+    "logging": {
+      "description": "日志编写规范",
+      "framework": "SLF4J + Logback",
+      "annotation": "@Slf4j（Lombok）",
+      "rules": [
+        {
+          "rule": "使用参数化日志",
+          "correct": "log.info(\"用户登录: userName={}\", name)",
+          "wrong": "log.info(\"用户登录: userName=\" + name)"
+        },
+        {
+          "rule": "异常作为最后一个参数",
+          "correct": "log.error(\"操作失败: {}\", message, e)",
+          "wrong": "log.error(\"异常: {}\", e, message)"
+        },
+        {
+          "rule": "不要打印大对象 toString()",
+          "correct": "log.info(\"查询结果: count={}\", list.size())",
+          "wrong": "log.info(\"查询结果: {}\", list.toString())"
+        },
+        {
+          "rule": "日志级别使用规范",
+          "levels": {
+            "ERROR": "影响系统正常运行的错误，需要立即关注",
+            "WARN": "潜在问题，不影响主流程",
+            "INFO": "关键业务节点（登录、下单、支付）",
+            "DEBUG": "调试信息，生产环境关闭",
+            "TRACE": "最详细的跟踪信息，仅开发时使用"
+          }
+        }
+      ]
+    }
+  }
+}

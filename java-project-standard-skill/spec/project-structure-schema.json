@@ -1,0 +1,279 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JavaProjectStructure",
+  "description": "Java 后端项目标准结构定义（基于 Spring Boot）",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["single", "multimodule"],
+      "description": "项目模式：single=单模块 Spring Boot, multimodule=多模块 Maven"
+    },
+    "techStack": {
+      "type": "object",
+      "properties": {
+        "java": {
+          "type": "string",
+          "const": "17+",
+          "description": "Java 版本"
+        },
+        "springBoot": {
+          "type": "string",
+          "const": "3.x",
+          "description": "Spring Boot 版本"
+        },
+        "orm": {
+          "type": "string",
+          "enum": ["mybatis-plus", "spring-data-jpa", "mybatis"],
+          "description": "ORM 框架"
+        },
+        "buildTool": {
+          "type": "string",
+          "enum": ["maven", "gradle"],
+          "description": "构建工具"
+        },
+        "database": {
+          "type": "string",
+          "enum": ["mysql", "postgresql", "oracle", "sqlserver"],
+          "description": "数据库类型"
+        },
+        "cache": {
+          "type": "string",
+          "enum": ["redis", "caffeine", "ehcache"],
+          "description": "缓存方案"
+        },
+        "security": {
+          "type": "string",
+          "enum": ["spring-security", "sa-token", "shiro"],
+          "description": "安全框架"
+        },
+        "apiDoc": {
+          "type": "string",
+          "enum": ["knife4j", "springdoc", "swagger"],
+          "description": "API 文档工具"
+        },
+        "toolLibs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["hutool", "mapstruct", "lombok", "guava", "commons-lang3"]
+          },
+          "description": "工具库列表"
+        }
+      },
+      "required": ["java", "springBoot", "orm", "buildTool"]
+    },
+    "packages": {
+      "type": "object",
+      "description": "标准 Java 包定义",
+      "properties": {
+        "controller": {
+          "type": "string",
+          "const": "controller/",
+          "description": "REST 控制器层"
+        },
+        "service": {
+          "type": "string",
+          "const": "service/",
+          "description": "服务接口层"
+        },
+        "serviceImpl": {
+          "type": "string",
+          "const": "service/impl/",
+          "description": "服务实现层"
+        },
+        "mapper": {
+          "type": "string",
+          "const": "mapper/",
+          "description": "MyBatis Mapper 接口层（或 repository/ for JPA）"
+        },
+        "entity": {
+          "type": "string",
+          "const": "entity/",
+          "description": "数据库实体类（DO），与表 1:1 映射"
+        },
+        "dto": {
+          "type": "string",
+          "const": "dto/",
+          "description": "数据传输对象"
+        },
+        "dtoQuery": {
+          "type": "string",
+          "const": "dto/query/",
+          "description": "查询参数对象"
+        },
+        "dtoReq": {
+          "type": "string",
+          "const": "dto/req/",
+          "description": "请求体 DTO"
+        },
+        "vo": {
+          "type": "string",
+          "const": "vo/",
+          "description": "视图对象（返回前端）"
+        },
+        "bo": {
+          "type": "string",
+          "const": "bo/",
+          "description": "业务对象"
+        },
+        "config": {
+          "type": "string",
+          "const": "config/",
+          "description": "Spring 配置类"
+        },
+        "constant": {
+          "type": "string",
+          "const": "constant/",
+          "description": "常量定义"
+        },
+        "enums": {
+          "type": "string",
+          "const": "enums/",
+          "description": "枚举类"
+        },
+        "exception": {
+          "type": "string",
+          "const": "exception/",
+          "description": "自定义异常与全局异常处理器"
+        },
+        "annotation": {
+          "type": "string",
+          "const": "annotation/",
+          "description": "自定义注解"
+        },
+        "aspect": {
+          "type": "string",
+          "const": "aspect/",
+          "description": "AOP 切面"
+        },
+        "interceptor": {
+          "type": "string",
+          "const": "interceptor/",
+          "description": "HTTP 拦截器与过滤器"
+        },
+        "util": {
+          "type": "string",
+          "const": "util/",
+          "description": "工具类"
+        },
+        "common": {
+          "type": "string",
+          "const": "common/",
+          "description": "共享基类（BaseEntity、R、PageQuery 等）"
+        }
+      }
+    },
+    "directories": {
+      "type": "object",
+      "description": "项目目录结构定义",
+      "properties": {
+        "singleMode": {
+          "$ref": "#/definitions/singleModuleStructure"
+        },
+        "multimoduleMode": {
+          "$ref": "#/definitions/multimoduleStructure"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "singleModuleStructure": {
+      "type": "object",
+      "description": "单模块 Spring Boot 项目结构",
+      "properties": {
+        "root": { "type": "string" },
+        "srcMainJava": {
+          "type": "string",
+          "description": "Java 源码根目录"
+        },
+        "srcMainResources": {
+          "type": "object",
+          "properties": {
+            "applicationYml": { "type": "string", "const": "application.yml" },
+            "applicationDevYml": { "type": "string", "const": "application-dev.yml" },
+            "applicationProdYml": { "type": "string", "const": "application-prod.yml" },
+            "applicationTestYml": { "type": "string", "const": "application-test.yml" },
+            "mapperXml": { "type": "string", "const": "mapper/" },
+            "staticDir": { "type": "string", "const": "static/" },
+            "templatesDir": { "type": "string", "const": "templates/" }
+          }
+        },
+        "srcTestJava": {
+          "type": "string",
+          "description": "测试源码根目录"
+        }
+      }
+    },
+    "multimoduleStructure": {
+      "type": "object",
+      "description": "多模块 Maven 项目结构（RuoYi 风格）",
+      "properties": {
+        "modules": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/mavenModule" },
+          "description": "子模块列表"
+        }
+      }
+    },
+    "mavenModule": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "模块名称"
+        },
+        "description": {
+          "type": "string",
+          "description": "模块职责描述"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["admin", "common", "framework", "business"],
+          "description": "模块类型"
+        },
+        "packages": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "该模块包含的包列表"
+        }
+      },
+      "required": ["name", "type"]
+    },
+    "featureModule": {
+      "type": "object",
+      "description": "业务功能模块（单模块模式下的业务模块）",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*$",
+          "description": "模块名称（如 user、order、product）"
+        },
+        "controller": { "type": "string", "const": "controller/" },
+        "service": { "type": "string", "const": "service/" },
+        "serviceImpl": { "type": "string", "const": "service/impl/" },
+        "mapper": { "type": "string", "const": "mapper/" },
+        "entity": { "type": "string", "const": "entity/" },
+        "dto": { "type": "string", "const": "dto/" },
+        "vo": { "type": "string", "const": "vo/" }
+      },
+      "required": ["name"]
+    },
+    "templateFiles": {
+      "type": "object",
+      "description": "骨架生成器的模板文件定义",
+      "properties": {
+        "pomXml": { "type": "string", "description": "Maven pom.xml 模板" },
+        "applicationJava": { "type": "string", "description": "Spring Boot 启动类模板" },
+        "rJava": { "type": "string", "description": "统一响应包装器 R<T> 模板" },
+        "baseEntityJava": { "type": "string", "description": "实体基类 BaseEntity 模板" },
+        "businessExceptionJava": { "type": "string", "description": "业务异常类模板" },
+        "globalExceptionHandlerJava": { "type": "string", "description": "全局异常处理器模板" },
+        "applicationYml": { "type": "string", "description": "主配置文件模板" },
+        "applicationDevYml": { "type": "string", "description": "开发环境配置模板" },
+        "applicationProdYml": { "type": "string", "description": "生产环境配置模板" }
+      }
+    }
+  }
+}

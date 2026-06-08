@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "API 契约定义规范 v3",
+  "description": "基于模块化组织的接口契约定义格式",
+
+  "definitions": {
+
+    "ApiDefinition": {
+      "type": "object",
+      "required": ["version", "title", "modules"],
+      "properties": {
+        "version": { "type": "string", "description": "契约版本" },
+        "title": { "type": "string", "description": "项目名称" },
+        "baseUrl": { "type": "string", "description": "统一前缀，如 /api" },
+        "description": { "type": "string" },
+        "modules": {
+          "type": "object",
+          "description": "模块集合，key 为模块标识",
+          "additionalProperties": { "$ref": "#/definitions/Module" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Module": {
+      "type": "object",
+      "required": ["name", "apis"],
+      "properties": {
+        "name": { "type": "string", "description": "模块中文名称" },
+        "description": { "type": "string", "description": "模块说明" },
+        "apis": {
+          "type": "array",
+          "description": "该模块下的所有接口",
+          "items": { "$ref": "#/definitions/Api" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Api": {
+      "type": "object",
+      "required": ["name", "method", "path"],
+      "properties": {
+        "name": { "type": "string", "description": "接口名称" },
+        "method": { "type": "string", "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"] },
+        "path": { "type": "string", "description": "接口路径" },
+        "description": { "type": "string" },
+        "request": { "$ref": "#/definitions/RequestDef" },
+        "response": { "$ref": "#/definitions/ResponseDef" }
+      },
+      "additionalProperties": false
+    },
+
+    "RequestDef": {
+      "type": "object",
+      "properties": {
+        "params": { "type": "object", "description": "路径参数", "additionalProperties": { "$ref": "#/definitions/FieldDef" } },
+        "query": { "type": "object", "description": "查询参数", "additionalProperties": { "$ref": "#/definitions/FieldDef" } },
+        "body": { "type": "object", "description": "请求体字段", "additionalProperties": { "$ref": "#/definitions/FieldDef" } }
+      },
+      "additionalProperties": false
+    },
+
+    "ResponseDef": {
+      "type": "object",
+      "properties": {
+        "data": { "description": "data 字段的结构描述" },
+        "example": { "description": "完整响应示例" }
+      }
+    },
+
+    "FieldDef": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "required": { "type": "boolean" },
+        "description": { "type": "string" },
+        "default": {},
+        "enum": { "type": "array" }
+      }
+    }
+  }
+}

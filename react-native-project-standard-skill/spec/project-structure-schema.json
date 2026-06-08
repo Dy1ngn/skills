@@ -1,0 +1,283 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReactNativeProjectStructure",
+  "description": "React Native 标准项目结构定义",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["feature-based", "expo-router"],
+      "description": "项目模式：feature-based=功能模块化, expo-router=文件路由"
+    },
+    "techStack": {
+      "type": "object",
+      "properties": {
+        "reactNative": { "type": "string", "const": "0.74+" },
+        "expo": { "type": "string", "const": "SDK 51+" },
+        "typescript": { "type": "string", "const": "5.x" },
+        "navigation": {
+          "type": "string",
+          "enum": ["react-navigation", "expo-router"],
+          "description": "导航方案"
+        },
+        "stateManagement": {
+          "type": "string",
+          "enum": ["zustand", "mobx-state-tree", "redux-toolkit"],
+          "description": "状态管理方案"
+        },
+        "dataFetching": {
+          "type": "string",
+          "const": "tanstack-query",
+          "description": "数据获取方案"
+        },
+        "formHandling": {
+          "type": "string",
+          "const": "react-hook-form",
+          "description": "表单处理方案"
+        },
+        "styling": {
+          "type": "string",
+          "enum": ["nativewind", "stylesheet", "styled-components", "tamagui"],
+          "description": "样式方案"
+        },
+        "packageManager": {
+          "type": "string",
+          "enum": ["pnpm", "npm", "yarn"],
+          "description": "包管理器"
+        },
+        "httpClient": {
+          "type": "string",
+          "enum": ["axios", "fetch"],
+          "description": "HTTP 客户端"
+        },
+        "storage": {
+          "type": "string",
+          "enum": ["async-storage", "mmkv"],
+          "description": "本地存储方案"
+        }
+      },
+      "required": ["reactNative", "typescript", "navigation", "stateManagement", "styling"]
+    },
+    "directories": {
+      "type": "object",
+      "description": "标准目录定义",
+      "properties": {
+        "app": {
+          "type": "string",
+          "description": "应用入口目录"
+        },
+        "features": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/featureModule" },
+          "description": "业务功能模块列表"
+        },
+        "navigation": {
+          "type": "string",
+          "description": "导航配置目录"
+        },
+        "shared": { "$ref": "#/definitions/sharedDir" },
+        "theme": {
+          "type": "string",
+          "description": "主题配置目录"
+        },
+        "i18n": {
+          "type": "string",
+          "description": "国际化目录"
+        },
+        "assets": {
+          "type": "string",
+          "description": "静态资源目录"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "featureModule": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "模块名称，kebab-case"
+        },
+        "components": {
+          "type": "string",
+          "const": "components/",
+          "description": "模块私有组件"
+        },
+        "hooks": {
+          "type": "string",
+          "const": "hooks/",
+          "description": "模块私有 Hooks"
+        },
+        "api": {
+          "type": "string",
+          "const": "api/",
+          "description": "模块私有 API 调用"
+        },
+        "store": {
+          "type": "string",
+          "const": "store/",
+          "description": "模块私有状态管理"
+        },
+        "types": {
+          "type": "string",
+          "const": "types/",
+          "description": "模块私有类型定义"
+        },
+        "screens": {
+          "type": "string",
+          "const": "screens/",
+          "description": "页面组件"
+        },
+        "utils": {
+          "type": "string",
+          "const": "utils/",
+          "description": "模块私有工具函数"
+        },
+        "constants": {
+          "type": "string",
+          "const": "constants/",
+          "description": "模块私有常量"
+        }
+      },
+      "required": ["name"]
+    },
+    "sharedDir": {
+      "type": "object",
+      "description": "跨模块共享代码目录",
+      "properties": {
+        "components": {
+          "type": "object",
+          "properties": {
+            "ui": {
+              "type": "object",
+              "description": "通用 UI 组件",
+              "properties": {
+                "examples": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "default": ["Button.tsx", "Input.tsx", "Card.tsx"]
+                }
+              }
+            },
+            "feedback": {
+              "type": "object",
+              "description": "状态反馈组件",
+              "properties": {
+                "examples": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "default": ["ErrorBoundary.tsx", "LoadingSpinner.tsx", "EmptyState.tsx"]
+                }
+              }
+            },
+            "business": {
+              "type": "object",
+              "description": "业务感知组件",
+              "properties": {
+                "examples": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "default": ["UserAvatar.tsx", "StatusBadge.tsx"]
+                }
+              }
+            }
+          }
+        },
+        "hooks": {
+          "type": "object",
+          "description": "全局 Hooks",
+          "properties": {
+            "examples": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["useAuth.ts", "usePagination.ts", "useDebounce.ts"]
+            }
+          }
+        },
+        "api": {
+          "type": "object",
+          "description": "API 客户端配置",
+          "properties": {
+            "files": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["client.ts", "types.ts", "index.ts"]
+            }
+          }
+        },
+        "utils": {
+          "type": "object",
+          "description": "纯工具函数",
+          "properties": {
+            "examples": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["format.ts", "storage.ts", "index.ts"]
+            }
+          }
+        },
+        "types": {
+          "type": "object",
+          "description": "全局共享类型",
+          "properties": {
+            "files": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["common.ts", "index.ts"]
+            }
+          }
+        },
+        "constants": {
+          "type": "object",
+          "description": "全局常量",
+          "properties": {
+            "files": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["colors.ts", "dimensions.ts", "index.ts"]
+            }
+          }
+        }
+      }
+    },
+    "expoRouter": {
+      "type": "object",
+      "description": "Expo Router 文件路由结构",
+      "properties": {
+        "rootLayout": {
+          "type": "string",
+          "const": "app/_layout.tsx",
+          "description": "根布局文件"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "layout": { "type": "string" },
+              "screens": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          },
+          "default": [
+            {
+              "name": "(tabs)",
+              "layout": "app/(tabs)/_layout.tsx",
+              "screens": ["index.tsx", "explore.tsx", "profile.tsx"]
+            },
+            {
+              "name": "(auth)",
+              "layout": "app/(auth)/_layout.tsx",
+              "screens": ["login.tsx", "register.tsx"]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

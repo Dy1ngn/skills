@@ -1,0 +1,345 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NamingConventions",
+  "description": "Vue 3 项目命名规范定义",
+  "version": "1.0.0",
+  "rules": {
+    "files": {
+      "vueComponent": {
+        "pattern": "PascalCase",
+        "suffix": ".vue",
+        "multiWord": true,
+        "examples": ["UserProfile.vue", "DataTable.vue", "AppHeader.vue"],
+        "antiPatterns": ["user.vue", "header.vue", "data_table.vue"],
+        "reason": "多词命名避免与 HTML 原生标签冲突"
+      },
+      "composable": {
+        "pattern": "camelCase",
+        "prefix": "use",
+        "suffix": ".ts",
+        "examples": ["useAuth.ts", "usePagination.ts", "useFetch.ts"],
+        "antiPatterns": ["auth.ts", "getAuth.ts", "AuthHook.ts"]
+      },
+      "piniaStore": {
+        "pattern": "camelCase",
+        "prefix": "use",
+        "suffix": "Store",
+        "fileSuffix": ".ts",
+        "examples": ["useUserStore.ts", "useCartStore.ts"],
+        "antiPatterns": ["userStore.ts", "user-store.ts", "UserStore.ts"]
+      },
+      "service": {
+        "pattern": "camelCase",
+        "suffix": "Service.ts",
+        "examples": ["userService.ts", "orderService.ts", "authService.ts"],
+        "antiPatterns": ["user-api.ts", "UserService.ts", "userApi.ts"]
+      },
+      "typeFile": {
+        "pattern": "camelCase",
+        "suffix": ".types.ts",
+        "examples": ["user.types.ts", "auth.types.ts"],
+        "alternatives": [".d.ts for ambient declarations only"]
+      },
+      "routeFile": {
+        "pattern": "camelCase",
+        "suffix": ".ts",
+        "naming": "by domain",
+        "examples": ["dashboard.ts", "auth.ts", "system.ts", "error.ts"]
+      },
+      "stylePartial": {
+        "pattern": "camelCase",
+        "prefix": "_",
+        "suffix": ".scss",
+        "examples": ["_variables.scss", "_mixins.scss", "_base.scss"]
+      },
+      "testFile": {
+        "pattern": "same as source file",
+        "suffixes": [".spec.ts", ".test.ts"],
+        "location": "co-located with source",
+        "examples": ["useAuth.spec.ts", "LoginForm.test.ts"]
+      },
+      "directive": {
+        "pattern": "camelCase",
+        "prefix": "v-",
+        "suffix": ".ts",
+        "examples": ["v-permission.ts", "v-loading.ts"]
+      },
+      "directory": {
+        "pattern": "kebab-case",
+        "examples": ["user-profile/", "data-table/", "shared-components/"],
+        "antiPatterns": ["UserProfile/", "userProfile/", "user_profile/"]
+      }
+    },
+    "componentProps": {
+      "booleanProps": {
+        "rule": "使用形容词/状态词，禁止 is 前缀（is 保留给 computed）",
+        "patterns": {
+          "basicState": {
+            "pattern": "adjective",
+            "examples": ["closable", "draggable", "disabled", "loading", "visible", "fullscreen", "modal", "bordered", "simple"]
+          },
+          "showFeature": {
+            "pattern": "showXxx",
+            "examples": ["showCancelButton", "showConfirmButton", "showDefaultActions", "showSearchForm"]
+          },
+          "hideFeature": {
+            "pattern": "hideXxx",
+            "examples": ["hideCancel", "hideFooter", "hideTitle"]
+          },
+          "lifecycleFlag": {
+            "pattern": "xxxOnClose",
+            "examples": ["destroyOnClose", "unmountOnClose"]
+          },
+          "operationState": {
+            "pattern": "verb-ing",
+            "examples": ["submitting", "confirmLoading", "confirmDisabled"]
+          }
+        },
+        "antiPatterns": ["isVisible", "isClosable", "isDraggable", "isDisabled"],
+        "sources": ["Vben Admin V5", "Arco Design Vue", "Ant Design Vue"]
+      },
+      "callbackProps": {
+        "patterns": {
+          "lifecycleCallback": {
+            "pattern": "on[Before|After]Xxx / onXxx",
+            "examples": ["onBeforeOk", "onBeforeCancel", "onClosed", "onOpened", "onOpenChange"]
+          },
+          "actionCallback": {
+            "pattern": "handleXxx",
+            "examples": ["handleSubmit", "handleReset", "handleCollapsedChange"]
+          },
+          "changeCallback": {
+            "pattern": "onXxxChange",
+            "examples": ["onOpenChange", "onValueChange"]
+          }
+        },
+        "sources": ["Vben Admin V5", "Arco Design Vue"]
+      },
+      "dataProps": {
+        "patterns": {
+          "configObject": {
+            "pattern": "xxxOptions / xxxConfig",
+            "examples": ["gridOptions", "formOptions", "toolbarConfig", "submitButtonOptions"]
+          },
+          "dataArray": {
+            "pattern": "xxxData / xxxList",
+            "examples": ["tableData", "dataList"]
+          },
+          "title": {
+            "pattern": "xxxTitle / title",
+            "examples": ["tableTitle", "tableTitleHelp"]
+          },
+          "formData": {
+            "pattern": "formInline / formModel",
+            "examples": ["formInline（来自父组件的初始值）"]
+          },
+          "styleClass": {
+            "pattern": "xxxClass / xxxStyle",
+            "examples": ["actionWrapperClass", "wrapperClass", "modalClass"]
+          }
+        },
+        "defaultValueRules": {
+          "primitives": "直接赋值：count: 0, size: 'md', visible: false",
+          "objects": "工厂函数：formInline: () => ({})",
+          "optional": "undefined：onConfirm: undefined",
+          "emptyString": "空字符串：wrapperClass: ''"
+        },
+        "sources": ["Vben Admin V5", "Naive UI Admin", "Vue Pure Admin"]
+      }
+    },
+    "eventEmits": {
+      "pattern": "kebab-case",
+      "rules": {
+        "vModel": {
+          "pattern": "update:xxx",
+          "examples": ["update:modelValue", "update:visible", "update:open", "update:value", "update:checked-row-keys"]
+        },
+        "action": {
+          "pattern": "single verb",
+          "examples": ["ok", "cancel", "confirm", "close", "open", "change"]
+        },
+        "lifecycle": {
+          "pattern": "beforeXxx / xxxed",
+          "examples": ["beforeOpen", "beforeClose", "opened", "closed"]
+        },
+        "compound": {
+          "pattern": "kebab-case",
+          "examples": ["fetch-success", "fetch-error", "edit-end", "search-change", "page-change"]
+        }
+      },
+      "antiPatterns": ["fetchSuccess", "pageChange", "editEnd"],
+      "sources": ["Arco Design Vue", "Ant Design Vue", "Naive UI Admin"]
+    },
+    "methods": {
+      "eventHandlers": {
+        "primary": {
+          "pattern": "handleXxx",
+          "description": "模板 @click/@close 等 DOM/组件事件的处理方法",
+          "examples": ["handleOk", "handleCancel", "handleSubmit", "handleReset", "handleClose", "handleFullscreen", "handleSearch", "handleMaskClick", "handleGlobalKeyDown", "handleOpenAutoFocus", "handleFocusOutside"]
+        },
+        "buttonClick": {
+          "pattern": "onXxxClick",
+          "description": "视图级按钮/工具栏点击",
+          "examples": ["onSearchBtnClick", "onToolbarToolClick", "onPageChange"]
+        },
+        "antiPatterns": ["onOk（歧义：回调 prop 还是事件处理？）", "onCancel"],
+        "sources": ["Vben Admin V5", "Arco Design Vue", "Ant Design Vue"]
+      },
+      "asyncDataFetch": {
+        "pattern": "fetchXxx",
+        "examples": ["fetchData", "fetchList", "fetchDetail", "fetchUserList"],
+        "alternatives": ["init（初始化）", "loadData（加载）"],
+        "sources": ["Arco Design Pro Vue", "Vben Admin V5"]
+      },
+      "visibilityControl": {
+        "open": { "pattern": "openXxx", "examples": ["openModal", "openDrawer", "openDialog"] },
+        "close": { "pattern": "closeXxx", "examples": ["closeModal", "closeDrawer", "closeDialog", "closeAllDialog"] },
+        "setter": { "pattern": "setXxx", "examples": ["setSubLoading", "setLoading"] },
+        "toggle": { "pattern": "toggleXxx", "examples": ["toggleFullscreen", "toggleCollapsed"] },
+        "functionalApi": { "pattern": "addXxx / removeXxx", "examples": ["addDialog", "closeDialog", "addDrawer"] },
+        "sources": ["Naive UI Admin", "Vue Pure Admin"]
+      }
+    },
+    "internalVariables": {
+      "loadingState": {
+        "pageLevel": { "name": "loading", "description": "页面/组件级 loading，通常来自 useLoading() hook" },
+        "buttonLevel": { "name": "subLoading", "description": "提交按钮 loading" },
+        "confirmButton": { "name": "confirmLoading / okLoading", "description": "弹窗确认按钮 loading" },
+        "formSubmit": { "name": "submitting", "description": "表单提交锁定" },
+        "operation": { "name": "xxxLoading", "description": "操作级 loading，如 sureBtnLoading" },
+        "sources": ["Arco Design Pro Vue", "Naive UI Admin", "Vben Admin V5"]
+      },
+      "formData": {
+        "searchModel": { "name": "formModel", "description": "搜索/筛选表单状态，最通用" },
+        "inlineForm": { "name": "formInline", "description": "来自父组件的行内表单数据（Props）" },
+        "drawerForm": { "name": "formParams", "description": "弹窗/抽屉内表单参数" },
+        "domainForm": { "name": "xxxInfo", "description": "按业务域命名：userInfo, orderInfo" },
+        "propCopy": { "name": "newXxx", "description": "Props 可变副本：newFormInline" },
+        "sources": ["Arco Design Pro Vue", "Naive UI Admin", "Vue Pure Admin"]
+      },
+      "listData": {
+        "tableData": { "name": "tableData", "description": "表格数据数组，最通用" },
+        "renderData": { "name": "renderData", "description": "过滤/处理后的渲染数据" },
+        "columns": { "name": "columns / cloneColumns / showColumns", "description": "表格列配置" },
+        "generic": { "name": "dataList / items / list", "description": "通用列表" },
+        "sources": ["Naive UI Admin", "Vben Admin V5", "Arco Design Pro Vue"]
+      },
+      "visibilityRef": {
+        "localRef": { "pattern": "isXxx", "examples": ["isModal", "isDrawer"] },
+        "stateInterface": { "pattern": "isOpen", "description": "接口/状态对象中" },
+        "propsControl": { "pattern": "visible / open", "description": "Props 控制显隐" },
+        "sources": ["Naive UI Admin", "Vben Admin V5", "Arco Design Vue", "Ant Design Vue"]
+      },
+      "domRefs": {
+        "pattern": "xxxRef",
+        "rule": "统一使用 xxxRef 后缀，无一例外",
+        "componentRefs": ["formElRef", "tableElRef", "gridRef", "ruleFormRef", "modalRef"],
+        "domRefs": ["wrapperRef", "contentRef", "dialogRef", "headerRef", "footerRef", "maskRef"],
+        "sources": ["Vben Admin V5", "Naive UI Admin", "Vue Pure Admin"]
+      }
+    },
+    "computedProperties": {
+      "isXxx": {
+        "pattern": "isXxx",
+        "semantic": "状态查询（是否处于某状态）",
+        "examples": ["isCompactForm", "isSeparator", "isStriped", "isClosed", "isLoggedIn"],
+        "sources": ["Vben Admin V5", "Naive UI Admin"]
+      },
+      "shouldXxx": {
+        "pattern": "shouldXxx",
+        "semantic": "条件判断（是否应该做某事）",
+        "examples": ["shouldFullscreen", "shouldDraggable", "shouldCentered"],
+        "sources": ["Vben Admin V5"]
+      },
+      "showXxx": {
+        "pattern": "showXxx",
+        "semantic": "UI 显示判断（是否渲染某元素）",
+        "examples": ["showTableTitle", "showToolbar", "showDefaultEmpty", "showFooter"],
+        "sources": ["Vben Admin V5"]
+      },
+      "hasXxx": {
+        "pattern": "hasXxx",
+        "semantic": "存在性判断（是否拥有某物）",
+        "examples": ["hasNext", "hasPrev", "hasPermission"],
+        "sources": ["通用"]
+      },
+      "getXxx": {
+        "pattern": "getXxx",
+        "semantic": "数据派生/获取",
+        "examples": ["getBindValues", "getForceMount", "getProps", "getCanResize", "getTableSize"],
+        "sources": ["Naive UI Admin", "Vben Admin V5"]
+      },
+      "mergedXxx": {
+        "pattern": "mergedXxx",
+        "semantic": "多源合并",
+        "examples": ["mergedModalStyle", "mergedOkLoading", "mergedOptions"],
+        "sources": ["Vben Admin V5"]
+      },
+      "xxxOptions": {
+        "pattern": "xxxOptions",
+        "semantic": "选项列表",
+        "examples": ["statusOptions", "contentTypeOptions", "densityList"],
+        "sources": ["Arco Design Pro Vue"]
+      }
+    },
+    "variables": {
+      "reactiveState": {
+        "pattern": "camelCase",
+        "semantic": true,
+        "examples": ["isLoading", "userList", "formData", "totalCount"],
+        "antiPatterns": ["loading_flag", "data", "temp", "list1"]
+      },
+      "constant": {
+        "pattern": "UPPER_SNAKE_CASE",
+        "examples": ["MAX_RETRY_COUNT", "API_BASE_URL", "DEFAULT_PAGE_SIZE"]
+      },
+      "interface": {
+        "pattern": "PascalCase",
+        "noIPrefix": true,
+        "examples": ["UserInfo", "ApiResponse", "RouteConfig"],
+        "antiPatterns": ["IUserInfo", "TUserInfo", "iUserInfo"]
+      },
+      "typeAlias": {
+        "pattern": "PascalCase",
+        "examples": ["UserRole", "RouteMeta", "ThemeMode"]
+      },
+      "enum": {
+        "namePattern": "PascalCase",
+        "valuePattern": "UPPER_SNAKE_CASE",
+        "example": {
+          "name": "Status",
+          "values": ["ACTIVE", "INACTIVE", "PENDING"]
+        }
+      },
+      "genericParam": {
+        "pattern": "single uppercase or semantic abbreviation",
+        "examples": ["T", "TData", "TResponse", "K", "V"]
+      },
+      "piniaStoreId": {
+        "pattern": "lowercase domain fragment",
+        "examples": ["'user'", "'auth'", "'cart'", "'notification'"],
+        "antiPatterns": ["'useUserStore'", "'UserStore'", "'USER'"]
+      },
+      "componentProps": {
+        "jsPattern": "camelCase",
+        "templatePattern": "kebab-case",
+        "example": {
+          "js": "userName",
+          "template": ":user-name"
+        }
+      },
+      "componentEvents": {
+        "pattern": "kebab-case",
+        "examples": ["update:modelValue", "click:submit", "change:status"]
+      }
+    },
+    "sfcOrder": {
+      "description": "Vue 单文件组件内部结构顺序",
+      "sections": [
+        { "order": 1, "name": "script setup", "items": ["defineOptions", "imports", "defineProps/defineEmits", "store instances", "reactive state", "computed", "methods", "lifecycle hooks"] },
+        { "order": 2, "name": "template" },
+        { "order": 3, "name": "style scoped" }
+      ]
+    }
+  }
+}

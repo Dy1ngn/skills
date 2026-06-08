@@ -1,0 +1,328 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NamingConventions",
+  "description": "Node.js (NestJS) 项目命名规范定义",
+  "version": "1.0.0",
+  "rules": {
+    "files": {
+      "module": {
+        "pattern": "kebab-case",
+        "suffix": ".module.ts",
+        "examples": ["users.module.ts", "auth.module.ts", "orders.module.ts"],
+        "antiPatterns": ["Users.module.ts", "usersModule.ts", "users_module.ts"],
+        "description": "NestJS 模块文件"
+      },
+      "controller": {
+        "pattern": "kebab-case",
+        "suffix": ".controller.ts",
+        "examples": ["users.controller.ts", "auth.controller.ts"],
+        "antiPatterns": ["Users.controller.ts", "usersController.ts"],
+        "description": "NestJS 控制器文件"
+      },
+      "service": {
+        "pattern": "kebab-case",
+        "suffix": ".service.ts",
+        "examples": ["users.service.ts", "prisma.service.ts", "auth.service.ts"],
+        "antiPatterns": ["Users.service.ts", "usersService.ts"],
+        "description": "NestJS 服务文件"
+      },
+      "dto": {
+        "pattern": "kebab-case",
+        "suffix": ".dto.ts",
+        "examples": ["create-user.dto.ts", "update-user.dto.ts", "query-user.dto.ts", "login.dto.ts"],
+        "antiPatterns": ["CreateUser.dto.ts", "createUserDto.ts"],
+        "description": "数据传输对象文件"
+      },
+      "entity": {
+        "pattern": "kebab-case",
+        "suffix": ".entity.ts",
+        "examples": ["user.entity.ts", "order.entity.ts", "article.entity.ts"],
+        "antiPatterns": ["User.entity.ts", "userEntity.ts"],
+        "description": "TypeORM 实体文件"
+      },
+      "guard": {
+        "pattern": "kebab-case",
+        "suffix": ".guard.ts",
+        "examples": ["jwt-auth.guard.ts", "roles.guard.ts", "local-auth.guard.ts"],
+        "antiPatterns": ["JwtAuth.guard.ts", "jwtAuthGuard.ts"],
+        "description": "NestJS Guard 文件"
+      },
+      "interceptor": {
+        "pattern": "kebab-case",
+        "suffix": ".interceptor.ts",
+        "examples": ["transform.interceptor.ts", "logging.interceptor.ts", "timeout.interceptor.ts"],
+        "antiPatterns": ["Transform.interceptor.ts", "transformInterceptor.ts"],
+        "description": "NestJS 拦截器文件"
+      },
+      "filter": {
+        "pattern": "kebab-case",
+        "suffix": ".filter.ts",
+        "examples": ["http-exception.filter.ts", "all-exceptions.filter.ts"],
+        "antiPatterns": ["HttpException.filter.ts"],
+        "description": "NestJS 异常过滤器文件"
+      },
+      "pipe": {
+        "pattern": "kebab-case",
+        "suffix": ".pipe.ts",
+        "examples": ["parse-date.pipe.ts", "validation.pipe.ts", "parse-uuid.pipe.ts"],
+        "antiPatterns": ["ParseDate.pipe.ts", "parseDatePipe.ts"],
+        "description": "NestJS 管道文件"
+      },
+      "middleware": {
+        "pattern": "kebab-case",
+        "suffix": ".middleware.ts",
+        "examples": ["correlation-id.middleware.ts", "logger.middleware.ts", "auth.middleware.ts"],
+        "antiPatterns": ["CorrelationId.middleware.ts"],
+        "description": "NestJS 中间件文件"
+      },
+      "decorator": {
+        "pattern": "kebab-case",
+        "suffix": ".decorator.ts",
+        "examples": ["roles.decorator.ts", "current-user.decorator.ts", "public.decorator.ts"],
+        "antiPatterns": ["Roles.decorator.ts", "rolesDecorator.ts"],
+        "description": "自定义装饰器文件"
+      },
+      "strategy": {
+        "pattern": "kebab-case",
+        "suffix": ".strategy.ts",
+        "examples": ["jwt.strategy.ts", "local.strategy.ts", "refresh.strategy.ts"],
+        "antiPatterns": ["Jwt.strategy.ts", "jwtStrategy.ts"],
+        "description": "Passport 策略文件"
+      },
+      "config": {
+        "pattern": "kebab-case",
+        "suffix": ".config.ts",
+        "examples": ["app.config.ts", "database.config.ts", "auth.config.ts"],
+        "antiPatterns": ["App.config.ts", "appConfig.ts"],
+        "description": "配置文件"
+      },
+      "test": {
+        "pattern": "kebab-case",
+        "suffix": ".spec.ts",
+        "examples": ["users.service.spec.ts", "auth.controller.spec.ts", "users.module.spec.ts"],
+        "antiPatterns": ["Users.service.spec.ts"],
+        "description": "单元测试文件",
+        "location": "co-located with source file"
+      },
+      "e2e": {
+        "pattern": "kebab-case",
+        "suffix": ".e2e-spec.ts",
+        "examples": ["app.e2e-spec.ts", "auth.e2e-spec.ts", "users.e2e-spec.ts"],
+        "antiPatterns": ["App.e2e-spec.ts"],
+        "description": "E2E 测试文件",
+        "location": "test/ directory"
+      },
+      "command": {
+        "pattern": "kebab-case",
+        "suffix": ".command.ts",
+        "examples": ["create-user.command.ts", "update-order.command.ts"],
+        "antiPatterns": ["CreateUser.command.ts"],
+        "description": "CQRS 命令文件"
+      },
+      "event": {
+        "pattern": "kebab-case",
+        "suffix": ".event.ts",
+        "examples": ["user-created.event.ts", "order-paid.event.ts", "payment-completed.event.ts"],
+        "antiPatterns": ["UserCreated.event.ts", "userCreatedEvent.ts"],
+        "description": "CQRS 事件文件"
+      }
+    },
+    "classes": {
+      "module": {
+        "pattern": "[Feature]Module",
+        "caseStyle": "PascalCase",
+        "examples": ["UsersModule", "AuthModule", "OrdersModule", "DatabaseModule"],
+        "antiPatterns": ["usersModule", "users_module", "USERS_MODULE"]
+      },
+      "controller": {
+        "pattern": "[Feature]Controller",
+        "caseStyle": "PascalCase",
+        "examples": ["UsersController", "AuthController", "AppController"],
+        "antiPatterns": ["usersController", "UsersControllers"]
+      },
+      "service": {
+        "pattern": "[Feature]Service",
+        "caseStyle": "PascalCase",
+        "examples": ["UsersService", "AuthService", "PrismaService", "JwtAuthService"],
+        "antiPatterns": ["usersService", "UserServices"]
+      },
+      "dto": {
+        "pattern": "[Action][Feature]Dto",
+        "caseStyle": "PascalCase",
+        "examples": ["CreateUserDto", "UpdateUserDto", "QueryUserDto", "LoginDto", "RegisterDto"],
+        "antiPatterns": ["createUserDto", "CreateUserDTO", "create_user_dto"]
+      },
+      "entity": {
+        "pattern": "[Feature]",
+        "caseStyle": "PascalCase",
+        "noSuffix": true,
+        "examples": ["User", "Order", "Article", "UserProfile"],
+        "antiPatterns": ["UserEntity", "userEntity", "user_entity"],
+        "description": "实体类不使用 Entity 后缀，直接用业务名称"
+      },
+      "guard": {
+        "pattern": "[Feature]Guard",
+        "caseStyle": "PascalCase",
+        "examples": ["JwtAuthGuard", "RolesGuard", "LocalAuthGuard", "ThrottlerGuard"],
+        "antiPatterns": ["jwtAuthGuard", "JWTAuthGuard"]
+      },
+      "interceptor": {
+        "pattern": "[Feature]Interceptor",
+        "caseStyle": "PascalCase",
+        "examples": ["TransformInterceptor", "LoggingInterceptor", "TimeoutInterceptor"],
+        "antiPatterns": ["transformInterceptor"]
+      },
+      "filter": {
+        "pattern": "[Feature]Filter",
+        "caseStyle": "PascalCase",
+        "examples": ["HttpExceptionFilter", "AllExceptionsFilter"],
+        "antiPatterns": ["httpExceptionFilter"]
+      },
+      "pipe": {
+        "pattern": "[Feature]Pipe",
+        "caseStyle": "PascalCase",
+        "examples": ["ParseDatePipe", "ValidationPipe", "ParseUUIDPipe"],
+        "antiPatterns": ["parseDatePipe"]
+      },
+      "strategy": {
+        "pattern": "[Feature]Strategy",
+        "caseStyle": "PascalCase",
+        "examples": ["JwtStrategy", "LocalStrategy", "RefreshStrategy"],
+        "antiPatterns": ["jwtStrategy", "JWTStrategy"]
+      },
+      "command": {
+        "pattern": "[Action][Feature]Command",
+        "caseStyle": "PascalCase",
+        "examples": ["CreateUserCommand", "UpdateOrderCommand", "DeleteArticleCommand"],
+        "antiPatterns": ["createUserCommand"]
+      },
+      "event": {
+        "pattern": "[Feature][PastTense]Event",
+        "caseStyle": "PascalCase",
+        "examples": ["UserCreatedEvent", "OrderPaidEvent", "PaymentCompletedEvent"],
+        "antiPatterns": ["userCreatedEvent", "CreateUserEvent"]
+      }
+    },
+    "methods": {
+      "crud": {
+        "description": "标准 CRUD 操作命名",
+        "rules": {
+          "create": {
+            "method": "create",
+            "httpMethod": "POST",
+            "example": "create(createUserDto: CreateUserDto)"
+          },
+          "findAll": {
+            "method": "findAll",
+            "httpMethod": "GET",
+            "example": "findAll(queryDto: QueryUserDto)"
+          },
+          "findOne": {
+            "method": "findOne",
+            "httpMethod": "GET",
+            "example": "findOne(id: string)"
+          },
+          "update": {
+            "method": "update",
+            "httpMethod": "PATCH",
+            "example": "update(id: string, updateUserDto: UpdateUserDto)"
+          },
+          "remove": {
+            "method": "remove",
+            "httpMethod": "DELETE",
+            "example": "remove(id: string)"
+          }
+        }
+      },
+      "auth": {
+        "description": "认证相关操作",
+        "examples": ["login", "register", "refreshToken", "logout", "validateUser", "validateToken"]
+      },
+      "business": {
+        "description": "业务逻辑方法",
+        "patterns": {
+          "findByXxx": "按条件查询单个: findByEmail, findByIds",
+          "bulkXxx": "批量操作: bulkCreate, bulkRemove",
+          "handleXxx": "事件处理: handleUserCreated",
+          "onXxx": "生命周期钩子: onModuleInit, onModuleDestroy"
+        }
+      }
+    },
+    "variables": {
+      "general": {
+        "pattern": "camelCase",
+        "description": "变量和参数使用 camelCase",
+        "examples": ["userCount", "isEmailVerified", "maxRetries", "currentPage"],
+        "antiPatterns": ["user_count", "UserCount", "USER_COUNT"]
+      },
+      "constants": {
+        "pattern": "UPPER_SNAKE_CASE",
+        "description": "常量使用 UPPER_SNAKE_CASE",
+        "examples": ["MAX_LOGIN_ATTEMPTS", "ROLES_KEY", "DEFAULT_PAGE_SIZE", "IS_PUBLIC_KEY"],
+        "antiPatterns": ["maxLoginAttempts", "MaxLoginAttempts"]
+      },
+      "enumName": {
+        "pattern": "PascalCase",
+        "description": "枚举名使用 PascalCase",
+        "examples": ["UserRole", "ErrorCode", "OrderStatus", "HttpStatus"]
+      },
+      "enumValue": {
+        "pattern": "UPPER_SNAKE_CASE",
+        "description": "枚举值使用 UPPER_SNAKE_CASE",
+        "examples": ["ADMIN", "USER", "USER_NOT_FOUND", "PENDING_PAYMENT"],
+        "antiPatterns": ["admin", "Admin", "userNotFound"]
+      },
+      "booleanVariables": {
+        "pattern": "is/has/should/can prefix",
+        "description": "布尔变量使用语义前缀",
+        "examples": ["isActive", "hasPermission", "shouldValidate", "canEdit"],
+        "antiPatterns": ["active", "permission", "validate_flag"]
+      }
+    },
+    "apiEndpoints": {
+      "pattern": "plural nouns, kebab-case, versioned",
+      "description": "API 端点使用复数名词、kebab-case、版本化",
+      "examples": [
+        "/api/v1/users",
+        "/api/v1/user-profiles",
+        "/api/v1/orders",
+        "/api/v1/auth/login",
+        "/api/v1/auth/register"
+      ],
+      "antiPatterns": [
+        "/api/v1/user",
+        "/api/v1/getUsers",
+        "/api/v1/user_profiles",
+        "/api/v1/User"
+      ],
+      "rules": {
+        "plural": "资源名称使用复数: /users 不用 /user",
+        "kebabCase": "多词使用连字符: /user-profiles 不用 /userProfiles",
+        "versioned": "带版本前缀: /api/v1/xxx",
+        "nested": "子资源嵌套: /users/:userId/orders"
+      }
+    },
+    "dtoComposition": {
+      "PartialType": {
+        "import": "@nestjs/swagger",
+        "description": "所有字段变为可选，用于 UPDATE 操作",
+        "example": "class UpdateUserDto extends PartialType(CreateUserDto) {}"
+      },
+      "OmitType": {
+        "import": "@nestjs/swagger",
+        "description": "移除指定字段",
+        "example": "class RegisterDto extends OmitType(CreateUserDto, ['role'] as const) {}"
+      },
+      "PickType": {
+        "import": "@nestjs/swagger",
+        "description": "选取指定字段",
+        "example": "class LoginDto extends PickType(CreateUserDto, ['email', 'password'] as const) {}"
+      },
+      "IntersectionType": {
+        "import": "@nestjs/swagger",
+        "description": "合并多个 DTO",
+        "example": "class UserWithProfileDto extends IntersectionType(UserDto, ProfileDto) {}"
+      }
+    }
+  }
+}

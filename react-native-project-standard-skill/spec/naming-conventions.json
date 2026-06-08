@@ -1,0 +1,282 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NamingConventions",
+  "description": "React Native 项目命名规范定义",
+  "version": "1.0.0",
+  "rules": {
+    "files": {
+      "screen": {
+        "pattern": "PascalCase",
+        "suffix": "Screen.tsx",
+        "examples": ["LoginScreen.tsx", "FeedScreen.tsx", "ProfileScreen.tsx", "SettingsScreen.tsx"],
+        "antiPatterns": ["login.tsx", "Feed.tsx", "feed-screen.tsx"],
+        "reason": "Screen 后缀明确标识页面级组件，便于与普通 UI 组件区分"
+      },
+      "component": {
+        "pattern": "PascalCase",
+        "suffix": ".tsx",
+        "examples": ["Button.tsx", "PrimaryButton.tsx", "UserAvatar.tsx", "StatusBadge.tsx"],
+        "antiPatterns": ["button.tsx", "primary_button.tsx", "primaryButton.tsx"],
+        "reason": "PascalCase 是 React 组件的标准命名约定"
+      },
+      "layout": {
+        "pattern": "PascalCase",
+        "suffix": "Layout.tsx",
+        "examples": ["AuthLayout.tsx", "MainLayout.tsx", "TabLayout.tsx"],
+        "antiPatterns": ["auth-layout.tsx", "authlayout.tsx"]
+      },
+      "hook": {
+        "pattern": "camelCase",
+        "prefix": "use",
+        "suffix": ".ts",
+        "examples": ["useAuth.ts", "usePagination.ts", "useDebounce.ts", "useLogin.ts"],
+        "antiPatterns": ["auth.ts", "Auth.ts", "AuthHook.ts", "use-auth.ts"],
+        "reason": "use 前缀是 React Hooks 的强制约定"
+      },
+      "zustandStore": {
+        "pattern": "camelCase",
+        "suffix": "Store.ts",
+        "examples": ["authStore.ts", "feedStore.ts", "userStore.ts", "appStore.ts"],
+        "antiPatterns": ["auth-store.ts", "AuthStore.ts", "useAuthStore.ts"],
+        "reason": "Store 后缀标识状态管理文件"
+      },
+      "mstModel": {
+        "pattern": "PascalCase",
+        "suffix": "Model.ts",
+        "examples": ["AuthModel.ts", "UserModel.ts", "FeedModel.ts"],
+        "antiPatterns": ["authModel.ts", "auth_model.ts"]
+      },
+      "apiModule": {
+        "pattern": "camelCase",
+        "suffix": ".api.ts",
+        "examples": ["auth.api.ts", "user.api.ts", "feed.api.ts"],
+        "antiPatterns": ["authApi.ts", "auth-api.ts", "authAPI.ts"],
+        "reason": ".api.ts 后缀统一标识 API 模块"
+      },
+      "typeFile": {
+        "pattern": "camelCase",
+        "suffix": ".types.ts",
+        "examples": ["auth.types.ts", "navigation.types.ts", "user.types.ts", "common.types.ts"],
+        "antiPatterns": ["authTypes.ts", "auth-types.ts", "AuthTypes.ts"]
+      },
+      "navigator": {
+        "pattern": "PascalCase",
+        "suffix": "Navigator.tsx",
+        "examples": ["AppNavigator.tsx", "AuthStackNavigator.tsx", "MainTabNavigator.tsx"],
+        "antiPatterns": ["appNavigator.tsx", "app-navigator.tsx"]
+      },
+      "provider": {
+        "pattern": "PascalCase",
+        "suffix": "Provider.tsx",
+        "examples": ["ThemeProvider.tsx", "QueryProvider.tsx", "AuthProvider.tsx"],
+        "antiPatterns": ["theme-provider.tsx", "themeProvider.tsx"]
+      },
+      "testFile": {
+        "pattern": "与源文件同名",
+        "suffix": ".test.ts(x)",
+        "location": "co-located with source",
+        "examples": ["authStore.test.ts", "LoginScreen.test.tsx", "useLogin.test.ts"],
+        "antiPatterns": ["authStore.spec.ts", "__tests__/login.test.ts"]
+      },
+      "constantFile": {
+        "pattern": "camelCase",
+        "suffix": ".ts",
+        "examples": ["colors.ts", "dimensions.ts", "enums.ts", "storageKeys.ts"],
+        "antiPatterns": ["COLORS.ts", "Colors.ts", "constants.ts"]
+      },
+      "styleFile": {
+        "pattern": "camelCase",
+        "suffix": ".styles.ts",
+        "examples": ["login.styles.ts", "feed.styles.ts"],
+        "alternatives": ["与组件同目录的 styles.ts"]
+      },
+      "directory": {
+        "pattern": "kebab-case 或 camelCase",
+        "examples": ["auth/", "feed/", "user-profile/", "shared/"],
+        "antiPatterns": ["Auth/", "UserProfile/", "user_profile/"],
+        "note": "Feature 模块目录推荐 kebab-case 或简短 camelCase"
+      }
+    },
+    "components": {
+      "screen": {
+        "suffix": "Screen",
+        "description": "页面级组件，对应一个完整页面",
+        "examples": ["LoginScreen", "FeedScreen", "ProfileScreen"]
+      },
+      "layout": {
+        "suffix": "Layout",
+        "description": "布局组件，提供页面骨架",
+        "examples": ["AuthLayout", "MainLayout", "TabLayout"]
+      },
+      "ui": {
+        "pattern": "PascalCase",
+        "description": "通用 UI 组件，无特殊后缀",
+        "examples": ["Button", "Input", "Card", "Avatar", "Badge"]
+      },
+      "feedback": {
+        "pattern": "PascalCase",
+        "description": "状态反馈组件",
+        "examples": ["ErrorBoundary", "LoadingSpinner", "EmptyState", "Skeleton"]
+      },
+      "business": {
+        "pattern": "PascalCase",
+        "description": "业务感知的共享组件",
+        "examples": ["UserAvatar", "StatusBadge", "PriceTag"]
+      },
+      "export": {
+        "defaultExport": false,
+        "namedExport": true,
+        "reason": "统一使用命名导出，便于 tree-shaking 和 barrel export"
+      }
+    },
+    "hooks": {
+      "prefix": "use",
+      "pattern": "camelCase",
+      "rules": [
+        "所有自定义 Hook 必须以 use 开头",
+        "Hook 名称应描述其返回值或行为",
+        "布尔返回值使用 is/has/can 前缀"
+      ],
+      "examples": {
+        "auth": ["useAuth", "useIsLoggedIn", "useCurrentUser"],
+        "data": ["usePagination", "useInfiniteScroll", "useDebounce"],
+        "ui": ["useKeyboard", "useBackHandler", "useDimensions"],
+        "form": ["useForm", "useFormField"]
+      },
+      "antiPatterns": ["getAuth", "AuthHook", "authHook", "use_auth"]
+    },
+    "stores": {
+      "zustand": {
+        "hookPattern": "useXxxStore",
+        "filePattern": "xxxStore.ts",
+        "description": "Zustand Store 以 use 开头、Store 结尾",
+        "examples": {
+          "hookName": ["useAuthStore", "useFeedStore", "useUserStore"],
+          "fileName": ["authStore.ts", "feedStore.ts", "userStore.ts"]
+        },
+        "antiPatterns": ["auth_store.ts", "AuthStore.ts", "createAuthStore.ts"]
+      },
+      "mst": {
+        "modelPattern": "XxxModel",
+        "filePattern": "XxxModel.ts",
+        "description": "MST Model 以 PascalCase + Model 结尾",
+        "examples": {
+          "modelName": ["AuthModel", "UserModel", "FeedModel"],
+          "fileName": ["AuthModel.ts", "UserModel.ts", "FeedModel.ts"]
+        }
+      },
+      "storeId": {
+        "pattern": "kebab-case 或简短小写",
+        "description": "Store 标识符使用简短小写",
+        "examples": ["auth", "feed", "user", "app"],
+        "antiPatterns": ["useAuthStore", "AuthStore", "AUTH_STORE"]
+      }
+    },
+    "variables": {
+      "general": {
+        "pattern": "camelCase",
+        "description": "变量和函数使用 camelCase",
+        "examples": ["userName", "fetchUserData", "handleSubmit"],
+        "antiPatterns": ["user_name", "UserName", "USERNAME"]
+      },
+      "boolean": {
+        "prefixes": ["is", "has", "should", "can"],
+        "description": "布尔值变量使用语义前缀",
+        "examples": {
+          "is": ["isLoading", "isVisible", "isAuthenticated", "isRefreshing"],
+          "has": ["hasError", "hasMore", "hasPermission"],
+          "should": ["shouldRender", "shouldRedirect"],
+          "can": ["canSubmit", "canEdit", "canDelete"]
+        },
+        "antiPatterns": ["loading", "error", "visible", "authenticated"]
+      },
+      "constantObject": {
+        "pattern": "as const + PascalCase 或 camelCase",
+        "description": "常量对象使用 as const 断言",
+        "examples": ["AppColors", "Layout", "API_CONFIG", "STORAGE_KEYS"],
+        "note": "枚举值使用 UPPER_SNAKE_CASE"
+      },
+      "styleObject": {
+        "prefix": "$",
+        "description": "Ignite 风格的样式对象使用 $ 前缀",
+        "examples": ["$root", "$header", "$container", "$buttonWrapper"],
+        "antiPatterns": ["rootStyle", "headerStyle", "styles.root"],
+        "note": "此约定来源于 Ignite (Infinite Red) 模板"
+      },
+      "interface": {
+        "pattern": "PascalCase",
+        "noIPrefix": true,
+        "description": "TypeScript 接口不加 I 前缀",
+        "examples": ["UserInfo", "ApiResponse", "AuthState", "NavigationProps"],
+        "antiPatterns": ["IUserInfo", "TUserInfo", "iUserInfo"]
+      },
+      "typeAlias": {
+        "pattern": "PascalCase",
+        "examples": ["UserRole", "ThemeMode", "ColorScheme", "RootStackParamList"]
+      },
+      "enum": {
+        "namePattern": "PascalCase",
+        "valuePattern": "UPPER_SNAKE_CASE",
+        "example": {
+          "name": "Status",
+          "values": ["ACTIVE", "INACTIVE", "PENDING"]
+        }
+      },
+      "genericParam": {
+        "pattern": "单大写字母或语义缩写",
+        "examples": ["T", "TData", "TResponse", "K", "V", "TError"]
+      },
+      "eventHandler": {
+        "pattern": "handleXxx 或 onXxx",
+        "description": "事件处理函数使用 handle 或 on 前缀",
+        "examples": ["handleSubmit", "handleLogin", "onPress", "onChangeText"],
+        "note": "React Native 内置事件使用 on 前缀（onPress, onChange），自定义处理使用 handle 前缀"
+      }
+    },
+    "navigation": {
+      "routeNames": {
+        "pattern": "PascalCase",
+        "description": "路由名称使用 PascalCase",
+        "examples": ["Login", "UserProfile", "SettingsDetail", "Feed"],
+        "antiPatterns": ["login", "user-profile", "user_profile"]
+      },
+      "paramLists": {
+        "pattern": "PascalCase + ParamList 后缀",
+        "description": "参数列表类型定义",
+        "examples": ["RootStackParamList", "AuthStackParamList", "MainTabParamList"]
+      },
+      "screenProps": {
+        "pattern": "PascalCase + ScreenProps 后缀",
+        "examples": ["LoginScreenProps", "FeedScreenProps"]
+      }
+    },
+    "apiEndpoints": {
+      "pattern": "kebab-case 复数名词",
+      "description": "RESTful API 端点使用 kebab-case 复数形式",
+      "examples": {
+        "list": "/users",
+        "detail": "/users/:id",
+        "create": "/users",
+        "update": "/users/:id",
+        "delete": "/users/:id",
+        "nested": "/users/:id/posts",
+        "action": "/users/:id/activate"
+      },
+      "antiPatterns": ["/getUser", "/user_profile", "/UserList"]
+    },
+    "queryKeys": {
+      "pattern": "嵌套数组结构",
+      "description": "TanStack Query 的 queryKey 使用工厂函数模式",
+      "example": {
+        "factory": "queryKeys.auth.profile()",
+        "value": "['auth', 'profile']"
+      },
+      "examples": [
+        "queryKeys.auth.all",
+        "queryKeys.auth.profile()",
+        "queryKeys.feed.list(params)",
+        "queryKeys.feed.detail(id)"
+      ]
+    }
+  }
+}
