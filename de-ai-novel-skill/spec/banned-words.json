@@ -298,6 +298,118 @@
         }
       ]
     },
+    "metaphor": {
+      "label": "比喻类",
+      "description": "AI 的安全比喻和经典意象",
+      "severity": "high",
+      "words": [
+        {
+          "word": "温润如玉",
+          "frequency": "极高",
+          "reason": "AI 最爱的男性气质标签，过于经典",
+          "replacements": ["写出具体：说话慢条斯理/手指修长/笑起来眼角有纹"]
+        },
+        {
+          "word": "静水深流",
+          "frequency": "高",
+          "reason": "AI 的深度人物标配意象",
+          "replacements": ["用角色经验替代：像后厨刘妈数银子时的眼神"]
+        },
+        {
+          "word": "春日暖阳",
+          "frequency": "高",
+          "reason": "AI 的温暖/美好万能意象",
+          "replacements": ["用具体感官替代：阳光晒在后背上，衣服发烫"]
+        },
+        {
+          "word": "刀削斧凿",
+          "frequency": "高",
+          "reason": "AI 的男性外貌模板",
+          "replacements": ["写出具体特征：下巴很尖/颧骨高/脸上有疤"]
+        },
+        {
+          "word": "深不见底",
+          "frequency": "中",
+          "reason": "AI 的神秘/深沉标签",
+          "replacements": ["写出具体：看人的时候眼睛不眨/说话前总要停顿三秒"]
+        },
+        {
+          "word": "如同.*一般",
+          "frequency": "高",
+          "reason": "AI 的明喻模板句式",
+          "replacements": ["改用暗喻或直接描写，减少明喻"]
+        },
+        {
+          "word": "宛如",
+          "frequency": "高",
+          "reason": "AI 偏好的文言比喻词",
+          "replacements": ["换用：像、活像、跟……似的"]
+        },
+        {
+          "word": "犹如",
+          "frequency": "高",
+          "reason": "同上",
+          "replacements": ["同上"]
+        },
+        {
+          "word": "恰似",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["同上"]
+        },
+        {
+          "word": "好似",
+          "frequency": "中",
+          "reason": "同上",
+          "replacements": ["同上"]
+        }
+      ]
+    },
+    "tell-words": {
+      "label": "讲述类",
+      "description": "AI 过度展示时缺失的直接讲述词",
+      "severity": "low",
+      "note": "这些词不是禁用，而是提醒：如果全文完全没有这些直接讲述，反而是 AI 的特征",
+      "patterns": [
+        {
+          "pattern": "全文无直接情感陈述",
+          "reason": "AI 被训练为'永远展示不要讲述'，但人类写作是 Show+Tell 混合",
+          "replacements": ["在关键情感爆发点加入直接讲述：她恨他。/他累了。/这事儿挺荒唐。"]
+        },
+        {
+          "pattern": "叙述者完全隐身",
+          "reason": "人类作者的叙述者偶尔会跳出来评论",
+          "replacements": ["加入叙述者视角：说起来也怪/这事儿搁谁身上都得愣一下"]
+        }
+      ]
+    },
+    "safe-patterns": {
+      "label": "安全模式类",
+      "description": "AI 的过度安全写作模式",
+      "severity": "high",
+      "patterns": [
+        {
+          "pattern": "每个细节都有叙事功能",
+          "reason": "AI 的每个细节都服务于情节/主题，缺少闲笔",
+          "replacements": ["加入 2-4 个与情节无关的闲笔细节"]
+        },
+        {
+          "pattern": "情感铺垫→触发→爆发→余韵 完整链条",
+          "reason": "AI 的情感变化太有节奏感，人类情感是混乱的",
+          "replacements": ["打乱情感节拍：突然爆发/不恰当的情绪/情感毛边"]
+        },
+        {
+          "pattern": "信息密度均匀",
+          "reason": "每段传递的信息量相近，缺少详略差异",
+          "replacements": ["重要场景拆成多个短段，过渡场景一句话带过"]
+        },
+        {
+          "pattern": "比喻本体喻体距离过近",
+          "reason": "AI 的比喻都在'安全区'，读者秒懂但没有惊喜",
+          "replacements": ["用角色经验做比喻，允许比喻'不完美'"]
+        }
+      ]
+    }
     "english": {
       "label": "英文 AI 高频词",
       "description": "English AI overused words",
