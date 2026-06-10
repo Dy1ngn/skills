@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AncientRomanceCharacterArchetypes",
+  "description": "古风言情人物原型库 — 角色塑造模板和语言档案",
+  "version": "1.0.0",
+
+  "femaleLeads": {
+    "resilient": {
+      "label": "隐忍坚韧型",
+      "coreTrait": "表面温顺，内心如铁，能忍常人所不能忍",
+      "strengths": ["察言观色", "忍耐力强", "心思缜密", "善于伪装"],
+      "weaknesses": ["过于压抑情感", "不善求助", "容易钻牛角尖"],
+      "speechStyle": "说话温和有礼，但关键时刻一句话能噎死人",
+      "signatureActions": ["攥紧衣角再松开", "低头时眼睛往上看人", "喝茶前先吹三下"],
+      "emotionalExpression": {
+        "anger": "不发火，但手会抖，或者突然很安静",
+        "sadness": "不哭，但会找一个没人的地方发呆",
+        "happy": "不笑出声，但眼角会弯",
+        "fear": "不退缩，但会下意识摸手腕"
+      },
+      "examples": ["盛明兰（知否）", "十一娘（锦心似玉）"]
+    },
+    "clever": {
+      "label": "聪慧机敏型",
+      "coreTrait": "脑子转得快，嘴也快，但不是无所不能",
+      "strengths": ["反应快", "观察力强", "善于借力", "有大局观"],
+      "weaknesses": ["容易轻敌", "有时候太聪明反被聪明误", "不够沉稳"],
+      "speechStyle": "语速快，爱反问，偶尔带点嘲讽",
+      "signatureActions": ["歪头想事情", "用手指敲桌面", "说话时眼睛转"],
+      "emotionalExpression": {
+        "anger": "会怼回去，但怼完会后悔",
+        "sadness": "用笑掩饰，笑着说没事",
+        "happy": "话变多，爱开玩笑",
+        "fear": "嘴硬说不怕，但手会攥紧"
+      },
+      "examples": ["赵丽颖（知否剧版）", "黄瑶（琅琊榜）"]
+    },
+    "stubborn": {
+      "label": "倔强执拗型",
+      "coreTrait": "认死理，不服输，撞了南墙也不回头",
+      "strengths": ["意志坚定", "有原则", "执行力强", "不随波逐流"],
+      "weaknesses": ["不懂变通", "容易得罪人", "不会示弱"],
+      "speechStyle": "说话直接，不爱绕弯子，偶尔冲",
+      "signatureActions": ["下巴微抬", "站着时腰板挺直", "被说中时会咬嘴唇"],
+      "emotionalExpression": {
+        "anger": "直接发火，但发完就后悔",
+        "sadness": "倔强地不哭，但声音会哑",
+        "happy": "不好意思笑，会转过头去",
+        "fear": "硬撑，但腿会软"
+      },
+      "examples": ["周翡（有匪）", "花千骨"]
+    }
+  },
+
+  "maleLeads": {
+    "cold": {
+      "label": "冷面心热型",
+      "coreTrait": "表面冷漠疏离，对特定人才有温度",
+      "strengths": ["能力强", "有担当", "做事果断"],
+      "weaknesses": ["不善表达", "容易让人误解", "有时候过于理性"],
+      "speechStyle": "话少，惜字如金，但每句都有分量",
+      "signatureActions": ["背手站立", "看人时目光停留比别人多一秒", "替人做事但不说"],
+      "emotionalExpression": {
+        "anger": "不发火，但气场会冷下来",
+        "sadness": "更沉默，一个人待着",
+        "happy": "嘴角动一下就算笑了",
+        "fear": "表面镇定，但手会握拳"
+      },
+      "examples": ["梅长苏（琅琊榜）", "顾廷烨（知否）"]
+    },
+    "gentle": {
+      "label": "温润如玉型",
+      "coreTrait": "真正的温柔不是软弱，是强大的人选择善良",
+      "strengths": ["有耐心", "善解人意", "有教养", "让人如沐春风"],
+      "weaknesses": ["有时候太温和反而显得优柔", "容易被利用"],
+      "speechStyle": "语速慢，声音低，说话有条理",
+      "signatureActions": ["递东西时双手", "听人说话时微微侧头", "笑起来眼睛会弯"],
+      "emotionalExpression": {
+        "anger": "不发火，但会突然安静下来",
+        "sadness": "笑容会变淡",
+        "happy": "眼睛会亮",
+        "fear": "会把别人护在身后"
+      },
+      "examples": ["萧景琰（琅琊榜）", "润玉（香蜜）"]
+    },
+    "roguish": {
+      "label": "玩世不恭型",
+      "coreTrait": "表面吊儿郎当，内心有底线有担当",
+      "strengths": ["社交能力强", "应变能力强", "不拘小节"],
+      "weaknesses": ["容易让人觉得不靠谱", "有时候用玩笑掩饰真心"],
+      "speechStyle": "爱开玩笑，说话随意，偶尔不正经",
+      "signatureActions": ["倚着门框/柱子", "随手拿东西把玩", "歪头笑"],
+      "emotionalExpression": {
+        "anger": "会笑，但笑得让人害怕",
+        "sadness": "开玩笑掩饰，但笑不到眼底",
+        "happy": "话变多，爱逗人",
+        "fear": "用玩笑岔开话题"
+      },
+      "examples": ["顾廷烨（知否前期）", "飞流（琅琊榜）"]
+    }
+  },
+
+  "supportingCharacters": {
+    "loyal_servant": {
+      "label": "忠仆/贴身侍女",
+      "function": "主角的延伸——通过侍女的反应展示主角的状态",
+      "speechStyle": "口语化，有方言感，爱碎碎念",
+      "pitfalls": "不要写成工具人——侍女也要有自己的性格和小毛病"
+    },
+    "scheming_relative": {
+      "label": "心机亲戚",
+      "function": "制造冲突，展示宅斗规则",
+      "speechStyle": "表面热情，话里有话",
+      "pitfalls": "不要写成纯粹的坏人——要有自己的苦衷和逻辑"
+    },
+    "wise_elder": {
+      "label": "智者长辈",
+      "function": "点拨主角，提供信息，但不替主角做决定",
+      "speechStyle": "说话含蓄，爱用比喻，点到为止",
+      "pitfalls": "不要写成全知全能的上帝——长辈也有不知道的事"
+    },
+    "rival": {
+      "label": "情敌/对手",
+      "function": "制造感情冲突，推动主角成长",
+      "speechStyle": "因人而异，但要有自己的说话方式",
+      "pitfalls": "不要写成脸谱化的反派——对手也要有可爱之处"
+    }
+  },
+
+  "characterVoiceTemplate": {
+    "description": "为每个角色建立语言档案的模板",
+    "template": {
+      "name": "角色名",
+      "age": "年龄",
+      "background": "出身/教育",
+      "socialClass": "社会阶层",
+      "region": "地域背景",
+      "speechHabits": {
+        "favoriteWords": ["偏好用词"],
+        "forbiddenWords": ["绝不会说的词"],
+        "sentenceLength": "长句/短句/混合",
+        "tone": "温和/尖锐/含糊/直接",
+        "catchphrase": "口头禅",
+        "stutter": "是否有口吃/结巴/口头语"
+      },
+      "emotionalVoice": {
+        "calm": "平静时怎么说话",
+        "angry": "愤怒时怎么说话",
+        "sad": "悲伤时怎么说话",
+        "scared": "害怕时怎么说话",
+        "lying": "说谎时怎么说话"
+      }
+    }
+  }
+}

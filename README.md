@@ -25,8 +25,9 @@ skills/
 <!-- SKILLS_LIST_START -->
 | Skill | 描述 | 适用场景 |
 |-------|------|----------|
+| [ancient-romance-skill](./ancient-romance-skill) | 从提词器到成稿到自检的一站式古风言情写作工具。写作完成后自动调用 `de-ai-novel-skill` 检测并修改，确保 AI 感 <10/100。 | |
 | [api-contract-skill](./api-contract-skill) | 前后端接口契约工具链 — 模块化组织、统一规范、分级文档。 | |
-| [de-ai-novel-skill](./de-ai-novel-skill) | 将 AI 生成的小说文本洗掉机器话术、逻辑断层、模板感、流水账，使其读起来像真人写的。 | |
+| [de-ai-novel-skill](./de-ai-novel-skill) | 检测并修复 AI 生成小说中的机器话术、逻辑断层、模板感，使其读起来像真人写的。 | |
 | [java-project-standard-skill](./java-project-standard-skill) | Java 后端项目工程规范 Skill，用于在 Claude 开发过程中自动按规范放置文件、命名变量，并生成标准化的项目骨架。基于阿里巴巴 Java 开发手册、RuoYi、JeecgBoot、Pig、EL-ADMIN 等大型商用 Java 项目的最佳实践总结而成。 | |
 | [nodejs-project-standard-skill](./nodejs-project-standard-skill) | Node.js 后端项目工程规范 Skill（基于 NestJS 框架），用于在 Claude 开发过程中自动按规范放置文件、命名变量，并生成标准化的项目骨架。基于 NestJS 官方示例、nestjs-realworld-example-app、awesome-nest-boilerplate、Midway.js 等大型商用 Node.js 项目的最佳实践总结而成。 | |
 | [novel-master-skill](./novel-master-skill) | 基于《我真没想重生呀》（1069章，200万字）深度分析提炼的写作技巧大全。 | |

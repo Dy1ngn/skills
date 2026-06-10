@@ -84,6 +84,17 @@ const SUGGESTED_REPLACEMENTS = [
   { find: '语重心长', category: '描写类', suggestions: ['通过说话方式展示：停顿了很久才开口/声音放低了'] },
   { find: '意味深长', category: '描写类', suggestions: ['写出具体暗示了什么，或让读者自己判断'] },
   { find: '仿佛', category: '描写类', suggestions: ['减少使用，改为直接描写'] },
+
+  // 比喻类（v2 新增）
+  { find: '温润如玉', category: '比喻类', suggestions: ['AI 最爱的男性气质标签', '用角色经验替代：说话慢条斯理/手指修长/笑起来眼角有纹'] },
+  { find: '静水深流', category: '比喻类', suggestions: ['AI 深度人物标配意象', '写出具体行为特征'] },
+  { find: '春日暖阳', category: '比喻类', suggestions: ['AI 温暖万能意象', '用具体感官替代：阳光晒在后背上，衣服发烫'] },
+  { find: '刀削斧凿', category: '比喻类', suggestions: ['AI 男性外貌模板', '写出具体特征：下巴很尖/颧骨高/脸上有疤'] },
+  { find: '宛如', category: '比喻类', suggestions: ['AI 偏好的文言比喻词', '换用：像、活像、跟……似的'] },
+  { find: '犹如', category: '比喻类', suggestions: ['同上'] },
+  { find: '恰似', category: '比喻类', suggestions: ['同上'] },
+  { find: '好似', category: '比喻类', suggestions: ['同上'] },
+  { find: '一池静水', category: '比喻类', suggestions: ['AI 经典意象', '用角色经验替代'] },
 ]
 
 // ========== 改写公式 ==========
@@ -97,6 +108,77 @@ const REWRITE_FORMULAS = {
   '感到惊讶': { rewrite: '嘴张了半天合不上', formula: '身体部位 + 具体动作' },
   '感到困惑': { rewrite: '眉头拧成了一个疙瘩', formula: '身体部位 + 具体动作' },
   '感到孤独': { rewrite: '房间里安静得能听到冰箱的嗡嗡声', formula: '环境 + 感官细节' },
+}
+
+// ========== 深层结构改写建议（v2 新增） ==========
+
+const DEEP_STRUCTURE_ADVICE = {
+  'metaphor-safety': {
+    label: '比喻安全区',
+    advice: [
+      '检查比喻的本体和喻体距离——太近=太安全=AI',
+      '用角色职业/生活经验中的事物做比喻（厨子用做菜比喻，渔民用海比喻）',
+      '允许比喻"不完美"——粗糙但生动 > 精致但安全',
+      '减少"X像Y"明喻，改用暗喻或借代',
+      '避免：温润如玉、静水深流、春日暖阳、刀削斧凿等 AI 标配意象',
+    ],
+  },
+  'info-density': {
+    label: '信息密度',
+    advice: [
+      '重要场景：拆成多个段落，每段只写一个感官/动作',
+      '过渡场景：一句话带过，甚至用空行直接跳切',
+      '回忆/内心：可以写很长，但要有碎片感，不要线性叙述',
+      '检查连续三段的信息量是否相近——如果相近，说明详略不够',
+    ],
+  },
+  'idle-strokes': {
+    label: '闲笔',
+    advice: [
+      '每章至少加入 1-2 个与情节无关的细节',
+      '允许环境描写"跑题"——写树可以顺便写树上的鸟窝',
+      '让角色有不重要的小习惯（喝茶前吹三下、写字时咬笔帽）',
+      '闲笔不能出现在高潮段落（会打断节奏）',
+      '闲笔不需要"回收"——写了就写了，不用后面呼应',
+    ],
+  },
+  'show-tell-balance': {
+    label: 'Show+Tell 平衡',
+    advice: [
+      '在关键情感爆发点，直接讲述反而更有力："她恨他。"',
+      '允许叙述者偶尔评论："这事儿说起来荒唐，但确实就这么发生了。"',
+      '紧张场景中，直接讲述可以加速节奏："他跑了。没回头。"',
+      '全文 100% Show 不 Tell 是 AI 的特征——人类写作是 Show+Tell 混合',
+    ],
+  },
+  'emotion-rhythm': {
+    label: '情感节拍',
+    advice: [
+      '打乱情感节拍：突然爆发 > 慢慢积累',
+      '让角色在不恰当的时候有不恰当的情绪（葬礼上突然想笑）',
+      '情感曲线要有"毛边"——不是完美的悲伤→接受→释然',
+      '情感爆发不要铺垫太足——有时候突然的愤怒比慢慢积累的更真实',
+    ],
+  },
+  'author-quirks': {
+    label: '作者个人癖好',
+    advice: [
+      '确定 2-3 个语言指纹，贯穿全文',
+      '标点习惯：破折号频率、省略号使用场景、感叹号频率',
+      '句式习惯：收尾句长度、段首词偏好、长句上限',
+      '用词偏好：偏好的连接词、动词、形容词',
+      '语气波动：冷淡/嘲讽/温柔交替，不要从头到尾一致',
+    ],
+  },
+  'structure-predictability': {
+    label: '结构可预测性',
+    advice: [
+      '在预期的"A→B"之间插入不相关场景（闲笔）',
+      '让某个场景同时承担两个矛盾的功能',
+      '打乱因果链：让结果先于原因出现',
+      '读完前 1/3 能预测后 2/3 → 结构太模板化，需要打破',
+    ],
+  },
 }
 
 // ========== 核心逻辑 ==========
@@ -223,6 +305,18 @@ function printSuggestions(filePath, analysis) {
   console.log(`  需人工判断: ${suggestIssues.length} 处`)
   console.log(`  可套用公式: ${formulaIssues.length} 处`)
   console.log('')
+
+  // 深层结构建议（v2 新增）
+  console.log(`${colors.bold}▸ 深层结构改写建议${colors.reset}`)
+  console.log('')
+  for (const [key, section] of Object.entries(DEEP_STRUCTURE_ADVICE)) {
+    console.log(`  ${colors.cyan}${section.label}${colors.reset}`)
+    for (const tip of section.advice) {
+      console.log(`    ${colors.dim}•${colors.reset} ${tip}`)
+    }
+    console.log('')
+  }
+
   console.log(`  ${colors.dim}使用 --apply 参数可自动替换可自动替换的部分${colors.reset}`)
   console.log('')
 }

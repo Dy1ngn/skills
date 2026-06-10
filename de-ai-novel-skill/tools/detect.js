@@ -94,6 +94,24 @@ const BANNED_WORDS_ZH = {
       { word: '最后', suggestion: '删除序数词，打散重组' },
     ],
   },
+  metaphor: {
+    label: '比喻类',
+    severity: 4,
+    words: [
+      { word: '温润如玉', suggestion: 'AI 最爱的男性气质标签，用角色经验替代' },
+      { word: '静水深流', suggestion: 'AI 深度人物标配，写出具体行为特征' },
+      { word: '春日暖阳', suggestion: 'AI 温暖万能意象，用具体感官替代' },
+      { word: '刀削斧凿', suggestion: 'AI 男性外貌模板，写出具体特征' },
+      { word: '深不见底', suggestion: 'AI 神秘标签，写出具体行为' },
+      { word: '宛如', suggestion: 'AI 偏好的文言比喻词，换用"像""活像"' },
+      { word: '犹如', suggestion: '同上' },
+      { word: '恰似', suggestion: '同上' },
+      { word: '好似', suggestion: '同上' },
+      { word: '一池静水', suggestion: 'AI 经典意象，用角色经验替代' },
+      { word: '薄霜', suggestion: 'AI 偏好的冷感意象，检查是否过于安全' },
+      { word: '春日里', suggestion: 'AI 的时间意象模板' },
+    ],
+  },
 }
 
 const BANNED_WORDS_EN = {
@@ -183,7 +201,7 @@ function detectEnglish(text) {
   return results
 }
 
-function calculateScore(results, totalLines) {
+function calculateScore(results, totalLines, deepChecks) {
   let score = 0
 
   // 每个禁词扣分（按严重程度）
@@ -196,6 +214,22 @@ function calculateScore(results, totalLines) {
   if (density > 5) score += 10
   if (density > 10) score += 20
 
+  // 深层结构扣分（v2 新增）
+  if (deepChecks) {
+    const deepFails = deepChecks.filter(c => !c.pass && c.threshold !== '人工检查' && c.threshold !== '有更好')
+    for (const fail of deepFails) {
+      // 深层结构问题权重更高
+      if (fail.id >= 101 && fail.id <= 103) score += 8  // 比喻安全区
+      else if (fail.id === 104) score += 5  // 信息密度
+      else if (fail.id === 105) score += 4  // 闲笔
+      else if (fail.id === 106) score += 6  // Show+Tell 平衡
+      else if (fail.id === 108) score += 5  // 情感节拍
+      else if (fail.id === 117) score += 4  // 时间标记
+      else if (fail.id === 120) score += 3  // 整体评估
+      else score += 2
+    }
+  }
+
   // 上限100
   return Math.min(100, Math.max(0, score))
 }
@@ -203,10 +237,10 @@ function calculateScore(results, totalLines) {
 // ========== 评分标签 ==========
 
 function getScoreLabel(score) {
-  if (score <= 20) return { label: '人味十足', color: colors.green }
-  if (score <= 40) return { label: '轻微机器感', color: colors.yellow }
-  if (score <= 60) return { label: '中等 AI 味', color: colors.yellow }
-  if (score <= 80) return { label: '明显 AI 味', color: colors.red }
+  if (score <= 15) return { label: '人味十足', color: colors.green }
+  if (score <= 30) return { label: '轻微机器感', color: colors.yellow }
+  if (score <= 50) return { label: '中等 AI 味', color: colors.yellow }
+  if (score <= 75) return { label: '明显 AI 味', color: colors.red }
   return { label: '纯机器输出', color: colors.red }
 }
 
@@ -640,6 +674,134 @@ function quickCheck100(text) {
   const h100=regexHits(lines,/突然|忽然|猛然|骤然|陡然|蓦然|乍然/g)
   C(100,'"突然"不过多',h100.length<=2,`${h100.length}个`,'≤2个',h100.slice(0,3))
 
+  // ═══ 深层结构层（20 项，v2 新增）═══
+
+  // 101. 安全比喻检测
+  const h101=regexHits(lines,/温润如玉|静水深流|春日暖阳|刀削斧凿|深不见底|宛如|犹如|恰似|好似|一池静水|薄霜般|春日里.*静水|目光.*像.*水|眼神.*像.*湖/g)
+  C(101,'安全比喻',h101.length<=1,`${h101.length}个安全意象`,'≤1个',h101.slice(0,5))
+
+  // 102. 明喻密度（X像Y结构）
+  const h102=regexHits(lines,/像[^。，！？]{2,}一样|像[^。，！？]{2,}似的|如同[^。，！？]{2,}一般|仿佛[^。，！？]{2,}般/g)
+  C(102,'明喻密度',den(h102.length,tc)<=1,`${h102.length}个`,'≤1/千字',h102.slice(0,3))
+
+  // 103. 比喻距离检测（本体喻体是否太近/太安全）
+  const h103=regexHits(lines,/目光.*像.*水|眼神.*像.*湖|声音.*像.*玉|笑容.*像.*阳光|眼泪.*像.*珍珠|心.*像.*刀|脸.*像.*花/g)
+  C(103,'比喻距离',h103.length===0,`${h103.length}个安全比喻`,'0个（用角色经验替代）',h103.slice(0,3))
+
+  // 104. 信息密度方差（连续段落的信息量是否过于均匀）
+  const h104=[]
+  const nonEmptyLines=lines.filter(l=>l.trim().length>0)
+  for(let i=2;i<nonEmptyLines.length;i++){
+    const a=nonEmptyLines[i-2].trim().length,b=nonEmptyLines[i-1].trim().length,c=nonEmptyLines[i].trim().length
+    const avg=(a+b+c)/3
+    if(avg>15&&Math.abs(a-avg)<avg*0.15&&Math.abs(b-avg)<avg*0.15&&Math.abs(c-avg)<avg*0.15){
+      h104.push({line:i+1,detail:`${a}/${b}/${c}字（密度过于均匀）`})
+    }
+  }
+  C(104,'信息密度方差',h104.length<=1,h104.length?`${h104.length}处过于均匀`:'有详略差异','≤1处',h104.slice(0,3))
+
+  // 105. 闲笔检测（是否有与情节无关的感官/环境细节）
+  // 检测方法：看是否有纯环境/感官描写段落（不含人物动作和情感词）
+  const h105=[]
+  for(let i=0;i<lines.length;i++){
+    const l=lines[i].trim()
+    if(l.length<10) continue
+    const hasEnv=/树|花|草|云|风|雨|阳光|月光|鸟|猫|狗|虫|鱼|水|石头|墙|瓦|砖|窗|门|桌|椅|灯|缸|巷|路|街/.test(l)
+    const hasChar=/她|他|我|你|人|角色|姑娘|公子|小姐|老爷|太太|嬷嬷|丫头/.test(l)
+    const hasEmotion=/感到|觉得|心中|心里|恨|爱|怕|怒|喜|悲|惊|急|愁|想|念|记|忘/.test(l)
+    const hasAction=/走|跑|站|坐|拿|放|推|拉|说|问|答|看|听|吃|喝/.test(l)
+    if(hasEnv&&!hasChar&&!hasEmotion&&!hasAction) h105.push({line:i+1,text:l.substring(0,30)})
+  }
+  C(105,'闲笔存在',h105.length>=1,`${h105.length}处纯环境描写`,'≥1处（闲笔让人味更浓）',h105.slice(0,3))
+
+  // 106. Show don't tell 过度执行（全文无直接情感陈述）
+  const h106=regexHits(lines,/她恨|她爱|她怕|她怒|她喜|她悲|他恨|他爱|他怕|他怒|他喜|他悲|我恨|我爱|我怕|我很|她很|他很|真是|实在是|确实是/g)
+  C(106,'直接讲述存在',h106.length>=1,`${h106.length}处直接陈述`,'≥1处（Show+Tell混合更自然）',h106.slice(0,3))
+
+  // 107. 叙述者存在感（是否有叙述者评论/插入语）
+  const h107=regexHits(lines,/说起来|这事儿|说白了|说到底|说实话|老实说|其实|反正|大概|也许|可能|说不定|谁知道呢|也怪|也巧|也是|倒也是|可不是|谁想到|搁谁|换谁/g)
+  C(107,'叙述者存在感',h107.length>=1,`${h107.length}处叙述者声音`,'≥1处',h107.slice(0,3))
+
+  // 108. 情感节拍是否过于整齐（铺垫→触发→爆发→余韵完整链条）
+  // 检测方法：看是否有连续的情感递进词
+  const h108=regexHits(lines,/先是|然后.*接着|先.*再.*最后|一开始|起初.*后来|从.*到|越来越|渐渐|逐渐|慢慢|一点一点/g)
+  C(108,'情感节拍自然度',h108.length<=2,`${h108.length}个递进标记`,'≤2个（太多=太整齐）',h108.slice(0,3))
+
+  // 109. 标点个性化（破折号使用频率）
+  const dashN=(all.match(/——/g)||[]).length
+  C(109,'破折号使用',dashN>=1,`${dashN}个破折号`,'≥1个（个人风格标记）')
+
+  // 110. 段首词多样性（避免连续段首重复）
+  const h110=[]
+  const firstChars=nonEmptyLines.map(l=>l.charAt(0))
+  for(let i=2;i<firstChars.length;i++){
+    if(firstChars[i]===firstChars[i-1]&&firstChars[i]===firstChars[i-2]&&/[一-鿿]/.test(firstChars[i])){
+      h110.push({line:i+1,detail:`连续三段以"${firstChars[i]}"开头`})
+    }
+  }
+  C(110,'段首词多样性',h110.length===0,h110.length?`${h110.length}处`:'段首词有变化','0处',h110.slice(0,3))
+
+  // 111. 句式节奏变化（短句/长句交替是否自然）
+  const sentenceLens=nonEmptyLines.map(l=>l.trim().length)
+  let rhythmBreaks=0
+  for(let i=1;i<sentenceLens.length;i++){
+    const ratio=Math.max(sentenceLens[i],sentenceLens[i-1])/Math.max(Math.min(sentenceLens[i],sentenceLens[i-1]),1)
+    if(ratio>3) rhythmBreaks++
+  }
+  C(111,'句式节奏突变',rhythmBreaks>=2,`${rhythmBreaks}处突变`,'≥2处（长短交替自然）')
+
+  // 112. 细节功能性检测（每个细节是否都有叙事功能）
+  // 检测方法：看是否有"多余"的数字/颜色/材质描写
+  const h112=regexHits(lines,/一个|一只|一条|一块|一把|一双|一层|一片|一阵|一道|一抹|一缕|一丝|一线/g)
+  C(112,'细节密度适中',den(h112.length,tc)<=8,`${h112.length}个`,'≤8/千字（太多=每个细节都有功能=AI）')
+
+  // 113. 对白自然度（是否有口语化表达）
+  const h113=regexHits(lines,/嗯|啊|呃|哦|嘛|吧|呢|呀|哈|嘿|喂|哎|唉|啧|哼|呸|啦|噢|呦|嘻/g)
+  C(113,'对白口语化',h113.length>=2,`${h113.length}处口语词`,'≥2处')
+
+  // 114. 方言/俗语存在
+  const h114=regexHits(lines,/咋|咋的|咋回事|干啥|啥事|啥时候|哪能|哪有|咋整|得嘞|好嘞|成嘞|行嘞|甭|别介|哪知道|谁知道|说不准|搞不好|说不定|八成|大概齐|差不多/g)
+  C(114,'方言俗语',true,h114.length?`${h114.length}处`:'未检测到','有更好',h114.slice(0,3))
+
+  // 115. 叙述语气波动（是否有语气变化标记）
+  const h115=regexHits(lines,/说真的|说白了|说到底|说实话|老实说|其实吧|反正|管他呢|爱咋咋|随他去|算了|得了|好了|行了|够了/g)
+  C(115,'语气波动',true,h115.length?`${h115.length}处语气变化`:'未检测到','有更好',h115.slice(0,3))
+
+  // 116. 结构可预测性（场景功能是否过于单一）
+  // 检测方法：看是否有场景功能混杂（回忆段中出现当下感官、布局段中出现闲笔）
+  const h116=[]
+  for(let i=0;i<lines.length;i++){
+    const l=lines[i]
+    // 回忆标记
+    const isMemory=/前世|当年|那时|那时候|从前|以前|记得|想起|回忆|过去/.test(l)
+    // 当下感官标记
+    const isPresent=/窗外|灶房|院子里|阳光|风|雨|冷|热|凉|热/.test(l)
+    if(isMemory&&isPresent) h116.push({line:i+1,detail:'回忆与当下感官混杂（好的）'})
+  }
+  C(116,'场景功能混杂',true,h116.length?`${h116.length}处混杂`:'未检测到','有更好',h116.slice(0,3))
+
+  // 117. 时间标记自然度（是否有过于精确的时间）
+  const h117=regexHits(lines,/三天后|七天后|一个月后|一年后|三年后|五年后|十年后|第二天|第三天|第四天|第五天|第六天|第七天/g)
+  C(117,'时间标记自然度',h117.length<=2,`${h117.length}个精确时间`,'≤2个（太多=太整齐）')
+
+  // 118. 因果链自然度（是否有过于整齐的因果标记）
+  const h118=regexHits(lines,/因为.*所以|由于.*因此|之所以.*是因为|既然.*就|只要.*就|只有.*才|除非.*否则|如果.*那么/g)
+  C(118,'因果链自然度',den(h118.length,tc)<=1,`${h118.length}个因果标记`,'≤1/千字')
+
+  // 119. 段落结构多样性（是否有多种段落类型）
+  let typeA=0,typeB=0,typeC=0 // 短段/中段/长段
+  for(const l of nonEmptyLines){
+    if(l.trim().length<=15) typeA++
+    else if(l.trim().length<=40) typeB++
+    else typeC++
+  }
+  const typeN=(typeA>0?1:0)+(typeB>0?1:0)+(typeC>0?1:0)
+  C(119,'段落结构多样性',typeN>=2,`短${typeA}/中${typeB}/长${typeC}`,'至少两种长度')
+
+  // 120. 整体人味综合评估
+  const autoFails=checks.filter(c=>!c.pass&&c.threshold!=='人工检查'&&c.threshold!=='有更好').length
+  C(120,'整体人味评估',autoFails<=5,`${autoFails}项自动检测未通过`,'≤5项未通过')
+
   return checks
 }
 
@@ -648,7 +810,7 @@ function printQuickCheck(filePath, text) {
   const passCount = checks.filter(c => c.pass).length
   const failCount = checks.filter(c => !c.pass).length
 
-  console.log(`  ${colors.bold}▸ 快速自检 100 项${colors.reset}（${passCount}/100 通过）`)
+  console.log(`  ${colors.bold}▸ 快速自检 ${checks.length} 项${colors.reset}（${passCount}/${checks.length} 通过）`)
   console.log('')
 
   // 按类别分组显示
@@ -661,6 +823,7 @@ function printQuickCheck(filePath, text) {
     { name: '结构层', ids: [65,66,67,68,69,70,71,72,73,74,75,76] },
     { name: '角色层', ids: [77,78,79,80,81,82,83,84,85,86,87,88] },
     { name: 'Show vs Tell', ids: [89,90,91,92,93,94,95,96,97,98,99,100] },
+    { name: '深层结构层', ids: [101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120] },
   ]
 
   for (const cat of categories) {
@@ -815,7 +978,9 @@ function main() {
   // 按行号排序
   results.sort((a, b) => a.line - b.line || a.column - b.column)
 
-  const score = calculateScore(results, totalLines)
+  // 计算深层结构检测结果（用于评分）
+  const deepChecks = quickCheck100(text)
+  const score = calculateScore(results, totalLines, deepChecks)
 
   if (format === 'json') {
     printJsonReport(filePath, results, score, totalLines)
